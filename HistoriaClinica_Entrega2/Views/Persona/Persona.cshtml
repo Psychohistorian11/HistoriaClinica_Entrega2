@@ -1,0 +1,33 @@
+﻿@model HistoriaClinica_Entrega2.Models.Persona
+@{
+    ViewBag.Title = "Persona";
+}
+
+<html>
+<head>
+    <title>Persona</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>DATOS PERSONALES</h3>
+        <form action="Persona/Persona" method="post">
+            <table>
+                <tr>
+                    <td><label>Identificación: @Model.Identificacion  </label></td>
+                </tr>
+                <tr>
+                    <td><label>Nombre: @Model.Nombre</label></td>
+                </tr>
+                <tr>
+                    <td><label>Apellidos: @Model.Apellidos</label></td>
+                </tr>
+                <tr>
+                    <td><label>Fecha nacimiento: @Model.FechaIngreso</label></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+
