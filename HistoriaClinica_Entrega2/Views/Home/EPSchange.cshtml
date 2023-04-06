@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "EPSchange";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <title>Index</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>EPS Change</h3>
+        <form action="Home/Home" method="post">
+            <table>
+                <h4> El cambio de EPS solo es permitido para los pacientes que lleven minimo 3 meses en su actual EPS  </h4>
+                <tr>
+                    <td><label>Identificación:                       </label></td>
+                    <td><input type="text" name="idEPSchange" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>EPS (Sura, Nueva EPS, Salud Total, Sanitas, Savia):   </label></td>
+                    <td><input type="text" name="varEPSchange" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="enviar" value="Enviar" /></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+
+
+

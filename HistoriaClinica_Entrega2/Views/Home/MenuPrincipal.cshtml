@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <br>
+    <h1 style="text-align: center;">Med Memoirs  <img src="~/Content/logoClinica.jpg" width="90" height="90"/></h1>
+
+    <br />
+    <div class="container">
+        <div class="image">
+            <!--<img src="~/Content/logoClinica.jpg" alt="Logo" width="300" height="300">-->
+            
+            <h3>
+                digital tool that integrates the clinical history of
+                all Colombians, in order to facilitate the control and monitoring carried out by the EPS, the IPS and all control agencies.
+            </h3>
+            <h2 style="text-align: center;">Menu</h2>
+
+        </div>
+        
+    </div>
+    <div class="buttons">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <style>
+                .boton-minimalista {
+                    background-color: transparent;
+                    border: 2px solid #333;
+                    color: #333;
+                    font-size: 16px;
+                    padding: 10px 20px;
+                }
+            </style>
+
+            <button id="miBoton1" class="boton-minimalista"> Enter patient...................................................</button>
+        }
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <button id="miboton2" class="boton-minimalista"> EPS change......................................................</button>
+        }
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <button id="miboton3" class="boton-minimalista"> Regime change..............................................</button>
+        }
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <button id="miboton4" class="boton-minimalista"> Update medical history..............................</button>
+        }
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <button id="miboton5" class="boton-minimalista"> Update cost of treatments........................</button>
+        }
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <button id="miboton6" class="boton-minimalista"> Update most relevant disease.................</button>
+        }
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <style>
+                .boton-minimalista1 {
+                    background-color: transparent;
+                    border: 2px solid red;
+                    color: #333;
+                    font-size: 16px;
+                    padding: 10px 20px;
+                }
+            </style>
+            <button id="miboton6" class="boton-minimalista1"> Show Stats.......................................................</button>
+        }
+    </div>
+</body>
+</html>
+
+

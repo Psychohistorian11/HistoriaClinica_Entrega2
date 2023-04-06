@@ -1,31 +1,84 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<html>
+<head>
+    <title>Index</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>Datos Personales</h3>
+        <form action="Home/Home" method="post">
+            <table>
+                <tr>
+                    <td><label>Identificación:  </label></td>
+                    <td><input type="text" name="id" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Nombre:  </label></td>
+                    <td><input type="text" name="nombre" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Apellidos:  </label></td>
+                    <td><input type="text" name="apellidos" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Fecha nacimiento:  </label></td>
+                    <td><input type="date" name="fhNacimiento" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Tipo de Regimen:  </label></td>
+                    <td><input type="text" name="tipoRegimen" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Semanas cotizadas en el sistema de salud:  </label></td>
+                    <td><input type="text" name="semanasCotizadas" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Fecha de ingreso al sistema de salud:  </label></td>
+                    <td><input type="date" name="fechaIngreso" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Fecha de ingreso a la actual EPS:  </label></td>
+                    <td><input type="date" name="fechaIngresoEPS" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>
+                                EPS
+                               (Sura, Nueva EPS, Salud Total, Sanitas, Savia)
+                            </label></td>
+                    <td><input type="text" name="EPS" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Historia Clinica:  </label></td>
+                    <td><input type="text" name="historiaClinica" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Cantidad de enfermedades que padece:  </label></td>
+                    <td><input type="text" name="cantidadEnfermedades" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Enfermedad más relevante:  </label></td>
+                    <td><input type="text" name="enferemdadRelevante" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>tipo de afiliación: Cotizante o Beneficiario:  </label></td>
+                    <td><input type="text" name="tipoAfiliación" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><label>Costo en Tratamientos:  </label></td>
+                    <td><input type="text" name="costosTratamientos" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="enviar" value="Enviar" /></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>

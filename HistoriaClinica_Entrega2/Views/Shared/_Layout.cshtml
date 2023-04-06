@@ -16,16 +16,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("MedMemoirs", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("MedMemoirs", "MenuPrincipal", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("EPS change", "About", "Home")</li>
-                    <li>@Html.ActionLink("regime change", "Contact", "Home")</li>
+                   
+                    <li>@Html.ActionLink("Enter patient","Index", "Home")  </li>
+                    <li>@Html.ActionLink("EPS change", "EPSchange", "Home")</li>
+                    <li>@Html.ActionLink("Regime change", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Update medical history", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Update cost of treatments", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Update most relevant disease", "Contact", "home")</li>
+                    <li>@Html.ActionLink("Show Stats","Index","Persona") </li>
 
                 </ul>
             </div>
