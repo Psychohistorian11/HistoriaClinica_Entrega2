@@ -16,7 +16,7 @@ namespace HistoriaClinica_Entrega2
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Persona", action = "Home", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "MenuPrincipal", id = UrlParameter.Optional }
             );
         }
     }

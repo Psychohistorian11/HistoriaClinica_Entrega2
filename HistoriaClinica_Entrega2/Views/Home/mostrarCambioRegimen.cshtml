@@ -1,0 +1,28 @@
+﻿@model HistoriaClinica_Entrega2.Models.Persona
+@{
+    ViewBag.Title = "RegimenChangeView";
+}
+
+<html>
+<head>
+    <title>EPSchange</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>Cambio de tipo de Regimen éxitoso</h3>
+        <form action="Home/RegimeChangeView" method="post">
+            <table>
+
+                <tr>
+                    <td><label>El paciente identificado con el numero: @Model.Identificacion </label></td>
+                </tr>
+                <tr>
+                    <td><label>Presenta un nuevo tipo de Regimen: @Model.TipoAfiliacion</label></td>
+                </tr>
+
+            </table>
+        </form>
+    </div>
+</body>
+</html>

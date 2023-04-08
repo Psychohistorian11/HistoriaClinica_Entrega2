@@ -163,10 +163,21 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Persona.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\mostrarRegistro.cshtml" />
+    <Content Include="Views\Home\registro.cshtml" />
     <Content Include="Views\Home\MenuPrincipal.cshtml" />
-    <Content Include="Views\Home\EPSchange.cshtml" />
+    <Content Include="Views\Home\cambioEPS.cshtml" />
+    <Content Include="Views\Home\mostrarCambioEPS.cshtml" />
+    <Content Include="Views\Home\cambioRegimen.cshtml" />
+    <Content Include="Views\Home\actualizarHistoria.cshtml" />
+    <Content Include="Views\Home\mostrarCambioRegimen.cshtml" />
+    <Content Include="Views\Home\mostrarActualizarHistoria.cshtml" />
+    <Content Include="Views\Home\actualizarCosto.cshtml" />
+    <Content Include="Views\Home\mostrarActualizarCosto.cshtml" />
+    <Content Include="Views\Home\actualizarEnfermedad.cshtml" />
+    <Content Include="Views\Home\mostrarActualizarEnfermedad.cshtml" />
+    <Content Include="Views\Home\estadisticas.cshtml" />
+    <Content Include="Views\Home\seNecesitaRegistro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

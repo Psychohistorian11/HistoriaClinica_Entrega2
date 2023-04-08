@@ -1,0 +1,29 @@
+﻿@model HistoriaClinica_Entrega2.Models.Persona
+@{
+    ViewBag.Title = "mostrarCambioEPS";
+}
+
+<html>
+<head>
+    <title>EPSchange</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>Cambio de EPS registrado con éxito</h3>
+        <form action="Home/EPSchangeView" method="post">
+            <table>
+
+                <tr>
+                    <td><label>El paciente identificado con el numero: @Model.Identificacion </label></td>
+                </tr>
+                <tr>
+                    <td><label>Presenta una nueva EPS: @Model.EPS1</label></td>
+                </tr>
+
+            </table>
+        </form>
+</div>
+</body>
+</html>
+

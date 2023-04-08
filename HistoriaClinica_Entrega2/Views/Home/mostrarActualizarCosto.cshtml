@@ -1,0 +1,43 @@
+﻿@model HistoriaClinica_Entrega2.Models.Persona
+@{
+    ViewBag.Title = "mostrarActualizarCosto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <title>Actualizar Costo de Tratamientos</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>Actualizar Costo de Tratamientos</h3>
+        <form action="cambioCosto" method="post">
+            <table>
+                @if (!string.IsNullOrEmpty(ViewBag.Notificacion))
+                {
+                    <div class="alert alert-success">@ViewBag.Notificacion</div>
+                }
+
+                <tr>
+                    <td><label>El paciente identificado con el numero: @Model.Identificacion </label></td>
+                </tr>
+                <tr>
+                    <td><label>Presenta esta cantidad en los costos de su tratamiento: @Model.CostosTratamientos</label></td>
+                </tr>
+                @using (Html.BeginForm("cambioCosto", "Home", FormMethod.Post))
+                {
+                    <tr>
+                        <td><label>Nuevo Costo de Tratamientos:  </label></td>
+                        <td><input type="text" name="nuevoCosto" value=" " /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" name="enviar" value="Enviar" /></td>
+                    </tr>
+                }
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+

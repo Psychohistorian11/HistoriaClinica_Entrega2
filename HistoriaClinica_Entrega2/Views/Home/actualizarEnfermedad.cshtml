@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "actualizarEnfermedad";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Atualizar enfermedad mas relevante</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>Atualizar enfermedad mas relevante</h3>
+        @if (!string.IsNullOrEmpty(ViewBag.Notificacion))
+        {
+            <div class="alert alert-danger">@ViewBag.Notificacion</div>
+        }
+        @using (Html.BeginForm("verificarParaActualizarEnfermedad", "Home", FormMethod.Post))
+        {
+            <table>
+                <h4>Para actualizar la enfermedad más relevante de un paciente debe ingresar su identificación</h4>
+                <tr>
+                    <td><label>Identificación:                       </label></td>
+                    <td><input type="text" name="idenfermedad" pattern="[0-9]+" oninput="this.value=this.value.replace(/[^0-9]/g,'');" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="enviar" value="Enviar" /></td>
+                </tr>
+            </table>
+        }
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "Registro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <title>Registro</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>Datos Personales</h3>
+            @using (Html.BeginForm("mostrarRegistro", "Home", FormMethod.Post))
+            {
+                <table>
+                    <tr>
+                        <td><label>Identificación:  </label></td>
+                        <td><input type="text" name="id" pattern="[0-9]+" oninput="this.value=this.value.replace(/[^0-9]/g,'');" value=" " /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Nombre:  </label></td>
+                        <td><input type="text" name="nombre" value=" " /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Apellidos:  </label></td>
+                        <td><input type="text" name="apellidos" value=" " /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Fecha de nacimiento:  </label></td>
+                        <td><input type="date" name="fhNacimiento" value=" " style="width: 300px;" /></td>
+                    </tr>
+                    <tr>
+                        <td><br /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><br /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label>Tipo de Regimen:  </label></td>
+                        <td>
+                            <select name="tipoRegimen" style="width: 300px;">
+                                <option value="Contributivo">Contributivo</option>
+                                <option value="Subsidiado">Subsidiado</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><br /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label>Semanas cotizadas en el sistema de salud:  </label></td>
+                        <td><input type="text" name="semanasCotizadas" pattern="[0-9]+" oninput="this.value=this.value.replace(/[^0-9]/g,'');" value=" " /></td>
+                    </tr>
+                    <tr>
+                        <td><br /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label>Fecha de ingreso al sistema de salud:  </label></td>
+                        <td><input type="date" name="fechaIngreso" value=" " style="width: 300px;" /></td>
+                    </tr>
+                    <tr>
+                        <td><br /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label>Fecha de ingreso a la actual EPS:  </label></td>
+                        <td><input type="date" name="fechaIngresoEPS" value=" " style="width: 300px;" /></td>
+                    </tr>
+                    <tr>
+                        <td><br /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+
+                        <td><label>EPS:  </label></td>
+                        <td>
+                            <select name="EPS" style="width: 300px;">
+                                <option value="Sura">Sura</option>
+                                <option value="Nueva EPS">Nueva EPS</option>
+                                <option value="Salud Total">Salud Total</option>
+                                <option value="Sanitas">Sanitas</option>
+                                <option value="Savia">Savia</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Historia Clinica:  </label></td>
+                        <td><input type="text" name="historiaClinica" value=" " /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Cantidad de enfermedades que padece:  </label></td>
+                        <td><input type="text" name="cantidadEnfermedades" value=" " /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Enfermedad más relevante:  </label></td>
+                        <td><input type="text" name="enfermedadRelevante" value=" " /></td>
+                    </tr>
+                    <tr>
+                        <td><br /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label>Tipo de Afiliación:  </label></td>
+                        <td>
+                            <select name="tipoAfiliacion" style="width: 300px;">
+                                <option value="Cotizante">Cotizante</option>
+                                <option value="Beneficiario">Beneficiario</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Costo en Tratamientos:  </label></td>
+                        <td><input type="text" name="costosTratamientos" pattern="[0-9]+" oninput="this.value=this.value.replace(/[^0-9]/g,'');" value=" " /></td>
+                    </tr>
+
+                </table>
+                <tr>
+                    <td><input type="submit" name="enviar" value="Enviar" /></td>
+                </tr>
+            }
+
+        
+    </div>
+</body>
+</html>
+

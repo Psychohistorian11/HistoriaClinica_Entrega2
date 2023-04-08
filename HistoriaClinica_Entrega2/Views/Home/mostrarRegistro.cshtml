@@ -1,0 +1,64 @@
+﻿@model HistoriaClinica_Entrega2.Models.Persona
+@{
+    ViewBag.Title = "Persona";
+}
+
+<html>
+<head>
+    <title>Persona</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>Paciente registrado con éxito</h3>
+        <form action="Persona/Persona" method="post">
+            <table>
+
+                <tr>
+                    <td><label>Identificación: @Model.Identificacion </label></td>
+                </tr>
+                <tr>
+                    <td><label>Nombre: @Model.Nombre</label></td>
+                </tr>
+                <tr>
+                    <td><label>Apellidos: @Model.Apellidos</label></td>
+                </tr>
+                <tr>
+                    <td><label>Fecha nacimiento: @Model.FechaNacimiento.ToString("dd/MM/yyyy")</label></td>
+                </tr>
+                <tr>
+                    <td><label>Tipo de Regimen: @Model.TipoRegimen</label></td>
+                </tr>
+                <tr>
+                    <td><label>Semanas Cotizadas: @Model.SemanasCotizadas</label></td>
+                </tr>
+                <tr>
+                    <td><label>fecha de Ingreso: @Model.FechaIngreso.ToString("dd/MM/yyyy")</label></td>
+                </tr>
+                <tr>
+                    <td><label>fecha de Ingreso a la EPS: @Model.FechaIngresoEPS.ToString("dd/MM/yyyy")</label></td>
+                </tr>
+                <tr>
+                    <td><label>EPS: @Model.EPS1</label></td>
+                </tr>
+                <tr>
+                    <td><label>Historia Clinica: @Model.HistoriaClinica</label></td>
+                </tr>
+                <tr>
+                    <td><label>Cantidad de Enfermedades: @Model.CantidadEnfermedades</label></td>
+                </tr>
+                <tr>
+                    <td><label>Enfermedad más Relevante: @Model.EnfermedadRelevante</label></td>
+                </tr>
+                <tr>
+                    <td><label>Tipo de Afiliación: @Model.TipoAfiliacion</label></td>
+                </tr>
+                <tr>
+                    <td><label>Coston en los tratamientos: @Model.CostosTratamientos $</label></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+

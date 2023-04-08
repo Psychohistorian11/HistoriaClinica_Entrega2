@@ -1,26 +1,116 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace HistoriaClinica_Entrega2.Models
 {
+
     public class Clinica
     {
+        private static Clinica instanciaUnica;
+
+        private Clinica()
+        {
+            // Aquí puedes realizar cualquier configuración adicional que requiera tu clase
+        }
+
+        public static Clinica ObtenerInstancia()
+        {
+            if (instanciaUnica == null)
+            {
+                instanciaUnica = new Clinica();
+            }
+
+            return instanciaUnica;
+        }
         List<Persona> listaDePacientes = new List<Persona>();
 
         public List<Persona> ListaDePacientes { get => listaDePacientes; set => listaDePacientes = value; }
 
+        public Persona obtnerPacientePorId(int id)
+        {
+            foreach (Persona persona in listaDePacientes)
+            {
+                if (persona.Identificacion == id)
+                {
+                    return persona;
+                }
+            }
+            return null;
+        }
+
+        public bool verificarExistenciaDeIdentidad(int id)
+        {
+            foreach(Persona persona in listaDePacientes)
+            {
+                if (persona.Identificacion == id)
+                {
+                    return true;
+                }
+                
+            }
+            return false;
+        }
+
+        public bool verificar3mesesEnEPS(int id)
+        {
+            foreach (Persona paciente in listaDePacientes)
+            {
+                if (paciente.Identificacion == id)
+                {
+                    if (DateTime.Now >= paciente.FechaIngresoEPS.AddMonths(3))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        public Persona CambioEPS(int identificacion, string EPS)
+        {
+
+            foreach (Persona paciente in listaDePacientes)
+            {
+                if (paciente.Identificacion == identificacion)
+                {
+                    paciente.EPS1 = EPS;
+                    return paciente; 
+                }
+
+            }
+            return null;
+        }
+
+        public void cambiarTipoAfiliacion(Persona paciente, string tipoAfiliacion)
+        {
+            paciente.TipoAfiliacion = tipoAfiliacion;
+        }
+
+        public void cambiarHistoriaClinica(Persona paciente, string historia)
+        {
+            paciente.HistoriaClinica = historia;
+        }
+
+        public void cambiarCostoTratamientos(Persona paciente, int nuevoCosto)
+        {
+            paciente.CostosTratamientos = nuevoCosto;
+        }
+        
+        public void cambiarEnfermedadRelevante(Persona paciente, string enfermedad)
+        {
+            paciente.EnfermedadRelevante = enfermedad;
+        }
 
         public void ingresarPaciente(Persona nuevoPaciente)
         {
             ListaDePacientes.Add(nuevoPaciente);
 
-        }
-
-        public void CambiarEPS(Persona paciente, string nuevaEPS)
-        {
-            paciente.EPS1 = nuevaEPS;
         }
 
         public double calcularPorcentajePacienteSinEnfermedad()
@@ -86,8 +176,16 @@ namespace HistoriaClinica_Entrega2.Models
         }
         public double calcularTotalPacientesCancer()
         {
-            List<Persona> afiliadosCancer = listaDePacientes.Where(afiliado => afiliado.EnfermedadRelevante == "Cancer" || afiliado.EnfermedadRelevante == "cancer" || afiliado.EnfermedadRelevante == " cancer" || afiliado.EnfermedadRelevante == " cancer ").ToList();
-            double numeroPacientes = Convert.ToDouble(afiliadosCancer.Count());
+            string enfermedadBuscada = "cancer";
+            int numeroPacientes = 0;
+
+            foreach(Persona Paciente in listaDePacientes)
+            {
+                if(Paciente.EnfermedadRelevante.ToLower() == enfermedadBuscada.ToLower())
+                {
+                    numeroPacientes++;
+                }
+            }
 
             return numeroPacientes;
         }
@@ -157,15 +255,16 @@ namespace HistoriaClinica_Entrega2.Models
 
             return porcentajeDePacientes;
         }
-        /*public Persona encontrarMayorCosto()
+        public Persona encontrarMayorCosto()
         {
 
-            List<Persona> listaCostosPaciente = listaDePacientes.Where(paciente => paciente.CostosTratamientos > 0).ToList();
-            double mayor_costo = listaCostosPaciente.Max(paciente => paciente.CostosTratamientos);
-            List<Persona> paciente = listaCostosPaciente.Where(paciente => paciente.CostosTratamientos == mayor_costo).ToList();
+            List<Persona> listaCostosPaciente = listaDePacientes.Where(paciente1 => paciente1.CostosTratamientos > 0).ToList();
+            double mayor_costo = listaCostosPaciente.Max(paciente1 => paciente1.CostosTratamientos);
+            List<Persona> paciente = listaCostosPaciente.Where(paciente1 => paciente1.CostosTratamientos == mayor_costo).ToList();
             return paciente[0];
 
-        }*/
+
+        }
         public List<double> calcularPacientesPorRegimen()
         {
             List<double> porcentajes = new List<double>();

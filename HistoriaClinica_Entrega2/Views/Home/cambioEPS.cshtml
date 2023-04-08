@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "EPSchange";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EPSchange</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>Cambio de EPS</h3>
+        @if (!string.IsNullOrEmpty(ViewBag.Notificacion))
+        {
+            <div class="alert alert-danger">@ViewBag.Notificacion</div>
+        }
+        @using (Html.BeginForm("verificarParaEPSchange", "Home", FormMethod.Post))
+        {
+            <table>
+                <h4> El cambio de EPS solo es permitido para los pacientes que lleven minimo 3 meses en su actual EPS  </h4>
+                <tr>
+                    <td><label>Identificación:                       </label></td>
+                    <td><input type="text" name="idEPSchange" pattern="[0-9]+" oninput="this.value=this.value.replace(/[^0-9]/g,'');" value=" " /></td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+                <tr>
+
+                    <td><label>EPS:  </label></td>
+                    <td>
+                        <select name="EPS" style="width: 300px;">
+                            <option value="Sura">Sura</option>
+                            <option value="Nueva EPS">Nueva EPS</option>
+                            <option value="Salud Total">Salud Total</option>
+                            <option value="Sanitas">Sanitas</option>
+                            <option value="Savia">Savia</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="enviar" value="Enviar" /></td>
+                </tr>
+            </table>
+        }
+    </div>
+</body>
+</html>
+
+
+

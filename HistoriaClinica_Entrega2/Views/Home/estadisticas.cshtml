@@ -1,0 +1,159 @@
+﻿@model HistoriaClinica_Entrega2.Models.Clinica
+
+@{
+    ViewBag.Title = "estadisticas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <title>Estadisticas</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>Estadisticas</h3>
+        <form action="estadisticas" method="post">
+            <table>
+                @{
+                    List<double> porcentajeCostosPorEPS = Model.calcularPorcentajeCostosPorEPS();
+                    List<double> totalCostosPorEPS = Model.calcularTotalCostosPorEPS();
+                    double PorcentajePacientesSinEnfermedades = Model.calcularPorcentajePacienteSinEnfermedad();
+                    double pacientesEnfermidadMasRelevanteCancer = Model.calcularTotalPacientesCancer();
+                    var pacienteMayorCostosDeTratamientos = Model.encontrarMayorCosto();
+                    List<double> porcentajePacientesEdad = Model.calcularPorcentajesPorEdad();
+                    List<double> pacientePorRegimen = Model.calcularPacientesPorRegimen();
+                    List<double> porcentajePacientesPorTipoAfiliacion = Model.calcularPorcentajePacientesPorTipoAfiliacion();
+                }
+                <tr>
+                    <td>
+                        <label>1. Porcentajes de costos por EPS:</label>
+                        <div class="text-muted">a. Sura: @Math.Round(porcentajeCostosPorEPS[0], 2) %</div>
+                        <div class="text-muted">b. Nueva EPS: @Math.Round(porcentajeCostosPorEPS[1], 2) %</div>
+                        <div class="text-muted">c. Salud Total: @Math.Round(porcentajeCostosPorEPS[2], 2) %</div>
+                        <div class="text-muted">d. Sanitas: @Math.Round(porcentajeCostosPorEPS[3], 2) %</div>
+                        <div class="text-muted">e. Savia: @Math.Round(porcentajeCostosPorEPS[4], 2) %</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>2. Total de costos por EPS:</label>
+                        <div class="text-muted">a. Sura: @Math.Round(totalCostosPorEPS[0], 2) $</div>
+                        <div class="text-muted">b. Nueva EPS: @Math.Round(totalCostosPorEPS[1], 2) $</div>
+                        <div class="text-muted">c. Salud Total: @Math.Round(totalCostosPorEPS[2], 2) $</div>
+                        <div class="text-muted">d. Sanitas: @Math.Round(totalCostosPorEPS[3], 2) $</div>
+                        <div class="text-muted">e. Savia: @Math.Round(totalCostosPorEPS[4], 2) $</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>3. Porcentaje de pacientes sin enfermedades:</label>
+                        <div class="text-muted">El @PorcentajePacientesSinEnfermedades % de los pacientes no presenta enfermedades </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>4. Paciente con mayor costo en tratamientos:</label>
+                        <div class="text-muted">
+                            El paciente con numero de identificación:
+                        </div>
+                        <div class="text-muted">
+                            ==> @pacienteMayorCostosDeTratamientos.Identificacion
+                        </div>
+                        <div class="text-muted">
+                            Apellido y nombre:
+                        </div>
+                        <div class="text-muted">
+                            ==> @pacienteMayorCostosDeTratamientos.Apellidos @pacienteMayorCostosDeTratamientos.Nombre
+                        </div>
+                        <div class="text-muted">
+                            Presenta el tratamiento mas costoso con:
+                        </div>
+                        <div class="text-muted">
+                            ==> @pacienteMayorCostosDeTratamientos.CostosTratamientos $
+                        </div>
+
+</td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>5. Porcentaje de pacientes por rango de edad:</label>
+                        <div class="text-muted"> a. Niños (0 - 12 años):  @porcentajePacientesEdad[0] % </div>
+                        <div class="text-muted"> b. Adolescente (12 - 18 años):  @porcentajePacientesEdad[1] % </div>
+                        <div class="text-muted"> c. Joven (18 - 30 años):  @porcentajePacientesEdad[2] % </div>
+                        <div class="text-muted"> d. Adulto (30 - 55 años):  @porcentajePacientesEdad[3] % </div>
+                        <div class="text-muted"> e. Adulto Mayor (55 - 75 años):  @porcentajePacientesEdad[4] % </div>
+                        <div class="text-muted"> f. Anciano (>75 años):  @porcentajePacientesEdad[5] % </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>6. Porcentaje de Pacientes por Regimen:</label>
+                        <div class="text-muted">
+                            a. Contributivo: @Math.Round(pacientePorRegimen[0], 2) %
+                        </div>
+                        <div class="text-muted">
+                            b. Subsidiado: @Math.Round(pacientePorRegimen[1], 2) %
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>7. Porcentaje de Pacientes por Afiliación:</label>
+                        <div class="text-muted">
+                            a. Cotizante: @Math.Round(porcentajePacientesPorTipoAfiliacion[0], 2) %
+                        </div>
+                        <div class="text-muted">
+                            b. beneficiario: @Math.Round(porcentajePacientesPorTipoAfiliacion[1], 2) %
+                        </div>
+
+                </td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            8.  Total de pacientes cuya enfermedad mas relevante sea el cancer
+                        </label>
+                        <div class="text-muted">
+                            Un total de: @pacientesEnfermidadMasRelevanteCancer pacientes actualmente
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+

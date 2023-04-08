@@ -18,19 +18,20 @@
             <!--<img src="~/Content/logoClinica.jpg" alt="Logo" width="300" height="300">-->
             
             <h3>
-                digital tool that integrates the clinical history of
-                all Colombians, in order to facilitate the control and monitoring carried out by the EPS, the IPS and all control agencies.
+                Herramienta digital que integra la historia clínica de todos los colombianos,
+                con el fin de facilitar el control y seguimiento que realiza la EPS, la IPS y 
+                todos los organismos de control.
             </h3>
-            <h2 style="text-align: center;">Menu</h2>
+            <h2 style="text-align: center;">Menú</h2>
 
         </div>
         
     </div>
     <div class="buttons">
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        @using (Html.BeginForm("registro", "Home", FormMethod.Post))
         {
             <style>
-                .boton-minimalista {
+                .boton-minimalista { 
                     background-color: transparent;
                     border: 2px solid #333;
                     color: #333;
@@ -39,29 +40,29 @@
                 }
             </style>
 
-            <button id="miBoton1" class="boton-minimalista"> Enter patient...................................................</button>
+            <button id="miBoton1" class="boton-minimalista"> Registrar Paciente...............................................</button>
         }
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        @using (Html.BeginForm("cambioEPS", "Home", FormMethod.Post))
         {
-            <button id="miboton2" class="boton-minimalista"> EPS change......................................................</button>
+            <button id="miboton2" class="boton-minimalista"> Cambio de EPS....................................................</button>
         }
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        @using (Html.BeginForm("cambioRegimen", "Home", FormMethod.Post))
         {
-            <button id="miboton3" class="boton-minimalista"> Regime change..............................................</button>
+            <button id="miboton3" class="boton-minimalista"> Cambio de tipo de regimen...........................</button>
         }
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        @using (Html.BeginForm("actualizarHistoria", "Home", FormMethod.Post))
         {
-            <button id="miboton4" class="boton-minimalista"> Update medical history..............................</button>
+            <button id="miboton4" class="boton-minimalista"> Actualizar historial medico..............................</button>
         }
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        @using (Html.BeginForm("actualizarCosto", "Home", FormMethod.Post))
         {
-            <button id="miboton5" class="boton-minimalista"> Update cost of treatments........................</button>
+            <button id="miboton5" class="boton-minimalista"> Actualizar costo de tratamientos..................</button>
         }
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        @using (Html.BeginForm("actualizarEnfermedad", "Home", FormMethod.Post))
         {
-            <button id="miboton6" class="boton-minimalista"> Update most relevant disease.................</button>
+            <button id="miboton6" class="boton-minimalista"> Actualizar enfermedad más relevante........</button>
         }
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        @using (Html.BeginForm("estadisticas", "Home", FormMethod.Post))
         {
             <style>
                 .boton-minimalista1 {
@@ -72,7 +73,7 @@
                     padding: 10px 20px;
                 }
             </style>
-            <button id="miboton6" class="boton-minimalista1"> Show Stats.......................................................</button>
+            <button id="miboton6" class="boton-minimalista1"> Estadisticas............................................................</button>
         }
     </div>
 </body>
