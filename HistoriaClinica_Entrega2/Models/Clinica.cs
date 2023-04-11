@@ -9,11 +9,11 @@ namespace HistoriaClinica_Entrega2.Models
 
     public class Clinica
     {
-        private static Clinica instanciaUnica;
+        public static Clinica instanciaUnica;
 
-        private Clinica()
+        public Clinica()
         {
-            // Aquí puedes realizar cualquier configuración adicional que requiera tu clase
+            
         }
 
         public static Clinica ObtenerInstancia()
@@ -29,8 +29,10 @@ namespace HistoriaClinica_Entrega2.Models
 
         public List<Persona> ListaDePacientes { get => listaDePacientes; set => listaDePacientes = value; }
 
-        public Persona obtnerPacientePorId(int id)
+        public Persona obtenerPacientePorId(int id)
         {
+
+
             foreach (Persona persona in listaDePacientes)
             {
                 if (persona.Identificacion == id)
@@ -38,6 +40,7 @@ namespace HistoriaClinica_Entrega2.Models
                     return persona;
                 }
             }
+
             return null;
         }
 
@@ -60,12 +63,15 @@ namespace HistoriaClinica_Entrega2.Models
             {
                 if (paciente.Identificacion == id)
                 {
-                    if (DateTime.Now >= paciente.FechaIngresoEPS.AddMonths(3))
+                    if (DateTime.Now.Date >= paciente.FechaIngresoEPS.Date.AddMonths(3))
                     {
                         return true;
                     }
-
-                    return false;
+                    else
+                    {
+                        return false;
+                    }
+                    
                 }
             }
 
@@ -216,23 +222,23 @@ namespace HistoriaClinica_Entrega2.Models
                 {
                     cantidadNiños++;
                 }
-                if (edad >= 12 && edad < 18)
+                else if (edad >= 12 && edad < 18)
                 {
                     cantidadAdolescente++;
                 }
-                if (edad >= 18 && edad < 30)
+                else if (edad >= 18 && edad < 30)
                 {
                     cantidadJovenes++;
                 }
-                if (edad >= 30 && edad < 55)
+                else if (edad >= 30 && edad < 55)
                 {
                     cantidadAdultos++;
                 }
-                if (edad >= 55 && edad < 75)
+                else if (edad >= 55 && edad < 75)
                 {
                     cantidadAdultoMayor++;
                 }
-                if (edad >= 75)
+                else if (edad >= 75)
                 {
                     cantidadAnciano++;
                 }
@@ -267,9 +273,25 @@ namespace HistoriaClinica_Entrega2.Models
         }
         public List<double> calcularPacientesPorRegimen()
         {
+            if (listaDePacientes == null)
+            {
+                throw new ArgumentNullException(nameof(listaDePacientes), "La lista de pacientes no puede ser nula");
+            }
+
+            if (listaDePacientes.Count == 0)
+            {
+                throw new InvalidOperationException("La lista de pacientes está vacía");
+            }
+
             List<double> porcentajes = new List<double>();
             List<Persona> afiliadosContributivo = listaDePacientes.Where(afiliado => afiliado.TipoRegimen == "Contributivo").ToList();
             List<Persona> afiliadosSubsidiado = listaDePacientes.Where(afiliado => afiliado.TipoRegimen == "Subsidiado").ToList();
+
+            if (afiliadosContributivo.Count == 0 && afiliadosSubsidiado.Count == 0)
+            {
+                throw new InvalidOperationException("No hay pacientes con régimen Contributivo o Subsidiado");
+            }
+
             double porcentajeContributivo = (Convert.ToDouble(afiliadosContributivo.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
             double porcentajeSubsidiado = (Convert.ToDouble(afiliadosSubsidiado.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
             porcentajes.Add(porcentajeContributivo);

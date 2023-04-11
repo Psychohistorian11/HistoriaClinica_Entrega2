@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
@@ -21,7 +22,8 @@ namespace HistoriaClinica_Entrega2.Controllers
             return View();
         }
         public ActionResult registro()
-        {   
+        {
+           
             return View();
         }
 
@@ -56,7 +58,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             }
             else if (clinica.verificar3mesesEnEPS(id) == false)
             {
-                TempData["Notificacion"] = "El paciente no lleva 3 o más meses en el sistema";
+                TempData["Notificacion"] = "El paciente no lleva 3 o más meses en la EPS actual";
             }
             else
             {
@@ -83,12 +85,13 @@ namespace HistoriaClinica_Entrega2.Controllers
             string dato = (string)TempData["idEPSchange"];
             TempData.Keep("idEPSchange");
             int datoEntero = Convert.ToInt32(dato);
-            Persona paciente = clinica.obtnerPacientePorId(datoEntero);
+            Persona paciente = clinica.obtenerPacientePorId(datoEntero);
             return View(paciente);
         }
 
         public ActionResult mostrarRegistro() 
         {
+
             int identificacion;
             string nombre;
             string apellidos;
@@ -104,7 +107,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             string tipoAfiliacion;
             double costosTratamientos;
 
-            identificacion = Convert.ToInt32(Request.Form["id"]);
+            identificacion= Convert.ToInt32(Request.Form["id"]);
             nombre = Convert.ToString(Request.Form["nombre"]);
             apellidos = Convert.ToString(Request.Form["apellidos"]);
             fechaNacimiento = Convert.ToDateTime(Request.Form["fhNacimiento"]);
@@ -116,16 +119,21 @@ namespace HistoriaClinica_Entrega2.Controllers
             historiaClinica = Convert.ToString(Request.Form["historiaClinica"]);
             cantidadEnfermedades = Convert.ToInt32(Request.Form["cantidadEnfermedades"]);
             enfermedadRelevante = Convert.ToString(Request.Form["enfermedadRelevante"]);
+            if(enfermedadRelevante == "")
+            {
+                enfermedadRelevante = "Sin enfermedades";
+            }
             tipoAfiliacion = Convert.ToString(Request.Form["tipoAfiliacion"]);
             costosTratamientos = Convert.ToDouble(Request.Form["costosTratamientos"]);
 
-
-            Persona persona = new Persona(identificacion, nombre, apellidos, fechaNacimiento,tipoRegimen,semanasCotizadas,
-                                           fechaIngreso,fechaIngresoEPS,EPS,historiaClinica,cantidadEnfermedades, enfermedadRelevante,
-                                           tipoAfiliacion,costosTratamientos);
+            Persona persona = new Persona(identificacion, nombre, apellidos, fechaNacimiento, tipoRegimen, semanasCotizadas,
+                               fechaIngreso, fechaIngresoEPS, EPS, historiaClinica, cantidadEnfermedades, enfermedadRelevante,
+                               tipoAfiliacion, costosTratamientos);
 
             clinica.ingresarPaciente(persona);
             return View(persona);
+            
+
         }
         public ActionResult verificarParaRegimeChange()
         {
@@ -140,7 +148,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             }
             else
             {
-                Persona persona = clinica.obtnerPacientePorId(id);
+                Persona persona = clinica.obtenerPacientePorId(id);
                 clinica.cambiarTipoAfiliacion(persona, tipoAfiliacion);
                 string idMomentaneo = Convert.ToString(id);
                 TempData["idRegimeChange"] = idMomentaneo;
@@ -161,7 +169,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             string dato = (string)TempData["idRegimeChange"];
             TempData.Keep("idRegimeChange");
             int datoEntero = Convert.ToInt32(dato);
-            Persona paciente = clinica.obtnerPacientePorId(datoEntero);
+            Persona paciente = clinica.obtenerPacientePorId(datoEntero);
             return View(paciente);
         }
 
@@ -196,7 +204,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             string dato = (string)TempData["idMomentaneoHistoria"];
             TempData.Keep("idMomentaneoHistoria");
             int datoEntero = Convert.ToInt32(dato);
-            Persona paciente = clinica.obtnerPacientePorId(datoEntero);
+            Persona paciente = clinica.obtenerPacientePorId(datoEntero);
             ViewBag.Notificacion = TempData["cambioHistoriaClinicaRealizado"];
             return View(paciente);
         }
@@ -206,7 +214,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             string dato = (string)TempData["idMomentaneoHistoria"];
             int datoEntero = Convert.ToInt32(dato);
             string historia = Convert.ToString(Request.Form["nuevaHistoriaClinica"]);
-            Persona persona = clinica.obtnerPacientePorId(datoEntero);
+            Persona persona = clinica.obtenerPacientePorId(datoEntero);
             clinica.cambiarHistoriaClinica(persona, historia);
 
             TempData["cambioHistoriaClinicaRealizado"] = "La historia clinica se ha modificado con éxito";
@@ -245,7 +253,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             string dato = (string)TempData["idMomentaneoCosto"];
             TempData.Keep("idMomentaneoCosto");
             int datoEntero = Convert.ToInt32(dato);
-            Persona paciente = clinica.obtnerPacientePorId(datoEntero);
+            Persona paciente = clinica.obtenerPacientePorId(datoEntero);
             ViewBag.Notificacion = TempData["cambioCostoTratamientosRealizado"];
             return View(paciente);
         }
@@ -255,7 +263,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             string dato = (string)TempData["idMomentaneoCosto"];
             int datoEntero = Convert.ToInt32(dato);
             int costo = Convert.ToInt32(Request.Form["nuevoCosto"]);
-            Persona persona = clinica.obtnerPacientePorId(datoEntero);
+            Persona persona = clinica.obtenerPacientePorId(datoEntero);
             clinica.cambiarCostoTratamientos(persona, costo);
 
             TempData["cambioCostoTratamientosRealizado"] = "El costo de los tratamientos del paciente se ha actualizado con éxito";
@@ -294,7 +302,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             string dato = (string)TempData["idMomentaneoEnfermedad"];
             TempData.Keep("idMomentaneoEnfermedad");
             int datoEntero = Convert.ToInt32(dato);
-            Persona paciente = clinica.obtnerPacientePorId(datoEntero);
+            Persona paciente = clinica.obtenerPacientePorId(datoEntero);
             ViewBag.Notificacion = TempData["cambioEnfermedadRealizado"];
             return View(paciente);
         }
@@ -305,7 +313,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             string dato = (string)TempData["idMomentaneoEnfermedad"];
             int datoEntero = Convert.ToInt32(dato);
             string enfermedad = Convert.ToString(Request.Form["nuevaEnfermedad"]);
-            Persona persona = clinica.obtnerPacientePorId(datoEntero);
+            Persona persona = clinica.obtenerPacientePorId(datoEntero);
             clinica.cambiarEnfermedadRelevante(persona, enfermedad);
 
             TempData["cambioEnfermedadRealizado"] = "La enfermedad más relevante del paciente se ha actualizado con éxito";

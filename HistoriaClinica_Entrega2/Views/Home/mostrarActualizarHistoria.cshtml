@@ -15,21 +15,28 @@
         <form action="cambioHistoriaClinica" method="post">
             <table>
                 @if (!string.IsNullOrEmpty(ViewBag.Notificacion))
-                {
+                 {
                     <div class="alert alert-success">@ViewBag.Notificacion</div>
-                }
+                 }
 
-                <tr>
-                    <td><label>El paciente identificado con el numero: @Model.Identificacion </label></td>
-                </tr>
-                <tr>
-                    <td><label>Presenta esta historia clinica: @Model.HistoriaClinica</label></td>
-                </tr>
+            <tr>
+                <label>El paciente identificado con el numero:  </label>
+                <div class="text-muted">
+                    @Model.Identificacion
+                </div>
+            </tr>
+                
+            <tr>
+                <label>Presenta esta historia clinica: </label>
+                <div class="text-muted">
+                    @Model.HistoriaClinica
+                </div>
+            </tr>
                 @using (Html.BeginForm("cambioHistoriaClinica", "Home", FormMethod.Post))
                 {
                     <tr>
                         <td><label>Nueva Historia Clinica:  </label></td>
-                        <td><input type="text" name="nuevaHistoriaClinica" value=" " /></td>
+                        <td><input type="text" name="nuevaHistoriaClinica" pattern="[a-zA-Z.,:;()¿?¡! ]+" required /></td>
                     </tr>
                     <tr>
                         <td><input type="submit" name="enviar" value="Enviar" /></td>

@@ -19,17 +19,23 @@
                     <div class="alert alert-success">@ViewBag.Notificacion</div>
                 }
 
-                <tr>
-                    <td><label>El paciente identificado con el numero: @Model.Identificacion </label></td>
-                </tr>
-                <tr>
-                    <td><label>Presenta esta cantidad en los costos de su tratamiento: @Model.CostosTratamientos</label></td>
-                </tr>
+            <tr>
+                <label>El paciente identificado con el numero: </label>
+                <div class="text-muted">
+                    @Model.Identificacion
+                </div>
+            </tr>
+            <tr>
+                <label>Presenta esta cantidad en los costos de su tratamiento: </label>
+                <div class="text-muted">
+                    @Model.CostosTratamientos
+                </div>
+            </tr>
                 @using (Html.BeginForm("cambioCosto", "Home", FormMethod.Post))
                 {
                     <tr>
                         <td><label>Nuevo Costo de Tratamientos:  </label></td>
-                        <td><input type="text" name="nuevoCosto" value=" " /></td>
+                        <td><input type="text" name="nuevoCosto" pattern="[0-9]+" oninput="this.value=this.value.replace(/[^0-9]/g,'');" value=" " /></td>
                     </tr>
                     <tr>
                         <td><input type="submit" name="enviar" value="Enviar" /></td>

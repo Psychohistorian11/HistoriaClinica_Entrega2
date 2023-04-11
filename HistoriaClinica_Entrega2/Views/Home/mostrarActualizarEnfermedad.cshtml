@@ -19,17 +19,23 @@
                     <div class="alert alert-success">@ViewBag.Notificacion</div>
                 }
 
-                <tr>
-                    <td><label>El paciente identificado con el numero: @Model.Identificacion </label></td>
-                </tr>
-                <tr>
-                    <td><label>Presenta esta enfermedad más relevante: @Model.EnfermedadRelevante</label></td>
-                </tr>
+            <tr>
+                <label>El paciente identificado con el numero: </label>
+                <div class="text-muted">
+                    @Model.Identificacion
+                </div>
+            </tr>
+            <tr>
+                <label>Presenta esta enfermedad más relevante:</label>
+                <div class="text-muted">
+                    @Model.EnfermedadRelevante
+                </div>
+            </tr>
                 @using (Html.BeginForm("cambiarEnfermedad", "Home", FormMethod.Post))
                 {
                     <tr>
-                        <td><label>Nuevo Costo de Tratamientos:  </label></td>
-                        <td><input type="text" name="nuevaEnfermedad" value=" " /></td>
+                        <td><label>Nueva Enfermedad más relevante: :  </label></td>
+                        <td><input type="text" name="nuevaEnfermedad" pattern="[a-zA-Z.,:;()¿?¡! ]+" required /></td>
                     </tr>
                     <tr>
                         <td><input type="submit" name="enviar" value="Enviar" /></td>
