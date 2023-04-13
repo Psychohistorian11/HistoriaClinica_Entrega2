@@ -1,4 +1,5 @@
-﻿using Microsoft.Ajax.Utilities;
+﻿using Antlr.Runtime.Misc;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,151 +7,18 @@ using System.Web;
 
 namespace HistoriaClinica_Entrega2.Models
 {
-
-    public class Clinica
+    public class CalcularInformacion 
     {
-        public static Clinica instanciaUnica;
-        public CalcularInformacion calcularInfo = new CalcularInformacion();
-        public CambiarInformacion cambiarInfo = new CambiarInformacion();
-        public VerificarInformacion verificarInfo = new VerificarInformacion();
-
-        /*public Clinica()
-        {
-            
-        }*/
-
-        public static Clinica ObtenerInstancia()
-        {
-            if (instanciaUnica == null)
-            {
-                instanciaUnica = new Clinica();
-            }
-
-            return instanciaUnica;
-        }
-        public static List<Persona> listaDePacientes = new List<Persona>();
-        
-        public  List<Persona> ListaDePacientes { get => listaDePacientes; set => listaDePacientes = value; }
-        public CalcularInformacion CalcularInfo { get => calcularInfo; set => calcularInfo = value; }
-        public CambiarInformacion CambiarInfo { get => cambiarInfo; set => cambiarInfo = value; }
-        public VerificarInformacion VerificarInfo { get => verificarInfo; set => verificarInfo = value; }
-
-        public Persona obtenerPacientePorId(int id)
-        {
-
-
-            foreach (Persona persona in listaDePacientes)
-            {
-                if (persona.Identificacion == id)
-                {
-                    return persona;
-                }
-            }
-
-            return null;
-            
-        }
-
-        /*public bool verificarExistenciaDeIdentidad(int id)
-        {
-            foreach(Persona persona in listaDePacientes)
-            {
-                if (persona.Identificacion == id)
-                {
-                    return true;
-                }
-                
-            }
-            return false;
-        }
-
-        public bool verificar3mesesEnEPS(int id)
-        {
-            foreach (Persona paciente in listaDePacientes)
-            {
-                if (paciente.Identificacion == id)
-                {
-                    if (DateTime.Now.Date >= paciente.Trabajador.FechaIngresoEPS.Date.AddMonths(3))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                    
-                }
-            }
-
-            return false;
-        }
-        
-        public Persona CambioEPS(int identificacion, string EPS)
-        {
-
-            foreach (Persona paciente in listaDePacientes)
-            {
-                if (paciente.Identificacion == identificacion)
-                {
-                    paciente.Trabajador.EPS1 = EPS;
-                    return paciente; 
-                }
-
-            }
-            return null;
-        }
-
-        public void cambiarTipoAfiliacion(Persona paciente, string tipoAfiliacion)
-        {
-            paciente.Trabajador.TipoAfiliacion = tipoAfiliacion;
-        }
-
-        public void cambiarHistoriaClinica(Persona paciente, string historia)
-        {
-            paciente.InformacionPaciente.HistoriaClinica = historia;
-        }
-
-        public void cambiarCostoTratamientos(Persona paciente, int nuevoCosto)
-        {
-            paciente.InformacionPaciente.CostosTratamientos = nuevoCosto;
-        }
-        
-        public void cambiarEnfermedadRelevante(Persona paciente, string enfermedad)
-        {
-            paciente.InformacionPaciente.EnfermedadRelevante = enfermedad;
-        }*/
-
-        public void ingresarPaciente(Persona nuevoPaciente)
-        {
-            ListaDePacientes.Add(nuevoPaciente);
-
-        }
-
-        /*public double calcularPorcentajePacienteSinEnfermedad()
-        {
-            int cantidadDePacientes = 0;
-            int cantidadDePacientes0Enfermedades = 0;
-            double porcentajePacientesSinEnfermedades = 0f;
-            foreach (Persona paciente in listaDePacientes)
-            {
-                cantidadDePacientes++;
-                if (paciente.InformacionPaciente.CantidadEnfermedades == 0)
-                {
-                    cantidadDePacientes0Enfermedades++;
-                }
-            }
-            porcentajePacientesSinEnfermedades = (cantidadDePacientes0Enfermedades * 100) / cantidadDePacientes;
-            return porcentajePacientesSinEnfermedades;
-        }
+        List<Persona> listaDePacientes = Clinica.listaDePacientes;
 
         public List<double> calcularTotalCostosPorEPS()
         {
             List<double> costosEps = new List<double>();
-            List<Persona> afiliadosSura = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS1 == "Sura").ToList();
-            List<Persona> afiliadosNuevaEps = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS1 == "Nueva EPS").ToList();
-            List<Persona> afiliadosSaludtotal = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS1 == "Salud Total").ToList();
-            List<Persona> afiliadosSanitas = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS1 == "Sanitas").ToList();
-            List<Persona> afiliadosSavia = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS1 == "Savia").ToList();
+            List<Persona> afiliadosSura = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Sura").ToList();
+            List<Persona> afiliadosNuevaEps = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Nueva EPS").ToList();
+            List<Persona> afiliadosSaludtotal = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Salud Total").ToList();
+            List<Persona> afiliadosSanitas = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Sanitas").ToList();
+            List<Persona> afiliadosSavia = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Savia").ToList();
 
             double costoSura = afiliadosSura.Sum(afiliado => afiliado.InformacionPaciente.CostosTratamientos);
             double costoNuevaEps = afiliadosNuevaEps.Sum(afiliado => afiliado.InformacionPaciente.CostosTratamientos);
@@ -166,7 +34,37 @@ namespace HistoriaClinica_Entrega2.Models
             return costosEps;
 
         }
+        public double calcularPorcentajePacienteSinEnfermedad()
+        {
+            int cantidadDePacientes = 0;
+            int cantidadDePacientes0Enfermedades = 0;
+            double porcentajePacientesSinEnfermedades = 0f;
+            foreach (Persona paciente in listaDePacientes)
+            {
+                cantidadDePacientes++;
+                if (paciente.InformacionPaciente.CantidadEnfermedades == 0)
+                {
+                    cantidadDePacientes0Enfermedades++;
+                }
+            }
+            porcentajePacientesSinEnfermedades = (cantidadDePacientes0Enfermedades * 100) / cantidadDePacientes;
+            return porcentajePacientesSinEnfermedades;
+        }
+        public double calcularTotalPacientesCancer()
+        {
+            string enfermedadBuscada = "cancer";
+            int numeroPacientes = 0;
 
+            foreach (Persona Paciente in listaDePacientes)
+            {
+                if (Paciente.InformacionPaciente.EnfermedadRelevante.ToLower() == enfermedadBuscada.ToLower())
+                {
+                    numeroPacientes++;
+                }
+            }
+
+            return numeroPacientes;
+        }
         public List<double> calcularPorcentajeCostosPorEPS()
         {
             List<double> costosEps = calcularTotalCostosPorEPS();
@@ -186,22 +84,6 @@ namespace HistoriaClinica_Entrega2.Models
             List<double> costosPorcentajes = new List<double> { porcentajeSura, porcentajeNuevaEps, porcentajeSaludTotal, porcentajeSanitas, porcentajeSavia };
             return costosPorcentajes;
 
-        }
-
-        public double calcularTotalPacientesCancer()
-        {
-            string enfermedadBuscada = "cancer";
-            int numeroPacientes = 0;
-
-            foreach(Persona Paciente in listaDePacientes)
-            {
-                if(Paciente.InformacionPaciente.EnfermedadRelevante.ToLower() == enfermedadBuscada.ToLower())
-                {
-                    numeroPacientes++;
-                }
-            }
-
-            return numeroPacientes;
         }
         public List<double> calcularPorcentajesPorEdad()
         {
@@ -269,7 +151,6 @@ namespace HistoriaClinica_Entrega2.Models
 
             return porcentajeDePacientes;
         }
-
         public Persona encontrarMayorCosto()
         {
 
@@ -293,6 +174,7 @@ namespace HistoriaClinica_Entrega2.Models
             porcentajes.Add(porcentajeSubsidiado);
             return porcentajes;
         }
+
         public List<double> calcularPorcentajePacientesPorTipoAfiliacion()
         {
             List<Persona> afiliadosCotizantes = listaDePacientes.Where(paciente => paciente.Trabajador.TipoAfiliacion == "Cotizante").ToList();
@@ -302,7 +184,6 @@ namespace HistoriaClinica_Entrega2.Models
             List<double> porcentajes = new List<double> { porcentajeCotizantes, porcentajeBeneficiarios };
             return porcentajes;
 
-
-        }*/
+        }
     }
 }

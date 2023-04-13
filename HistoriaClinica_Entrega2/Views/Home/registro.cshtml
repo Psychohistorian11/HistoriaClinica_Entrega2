@@ -15,7 +15,11 @@
 </head>
 <body>
     <div>
-        <h3>Datos Personales</h3>
+        <h3>Datos Personales del Paciente</h3>
+        @if (!string.IsNullOrEmpty(ViewBag.Notificacion))
+        {
+            <div class="alert alert-danger">@ViewBag.Notificacion</div>
+        }
         @using (Html.BeginForm("mostrarRegistro", "Home", FormMethod.Post))
         {
             <table>
@@ -29,7 +33,7 @@
                 </tr>
                 <tr>
                     <td><label> * Apellidos:  </label></td>
-                    <td><input type="text" name="apellidos" pattern="[a-zA-Z.,:;()¿?¡! ]+" required  /></td>
+                    <td><input type="text" name="apellidos" pattern="[a-zA-Z.,:;()¿?¡! ]+" required /></td>
                 </tr>
                 <tr>
                     <td><label> * Fecha de nacimiento:  </label></td>
@@ -65,16 +69,16 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td><label > * Fecha de ingreso al sistema de salud:  </label></td>
-                    <td><input type="date"  name="fechaIngreso" style="width: 300px;" required  /></td>
+                    <td><label> * Fecha de ingreso al sistema de salud:  </label></td>
+                    <td><input type="date" name="fechaIngreso" style="width: 300px;" required /></td>
                 </tr>
                 <tr>
                     <td><br /></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td><label >* Fecha de ingreso a la actual EPS:</label></td>
-                    <td><input type="date"  name="fechaIngresoEPS" style="width: 300px;" required  /></td>
+                    <td><label>* Fecha de ingreso a la actual EPS:</label></td>
+                    <td><input type="date" name="fechaIngresoEPS" style="width: 300px;" required /></td>
                 </tr>
                 <tr>
                     <td><br /></td>
@@ -95,7 +99,7 @@
                 </tr>
                 <tr>
                     <td><label> * Historia Clinica:  </label></td>
-                    <td><input type="text" name="historiaClinica" pattern="[a-zA-Z.,:;()¿?¡! ]+" required  /></td>
+                    <td><input type="text" name="historiaClinica" pattern="[a-zA-Z.,:;()¿?¡! ]+" required /></td>
                 </tr>
                 <tr>
                     <td><label> * Cantidad de enfermedades que padece:  </label></td>
@@ -103,7 +107,7 @@
                 </tr>
                 <tr>
                     <td><label>Enfermedad más relevante:  </label></td>
-                    <td><input type="text" name="enfermedadRelevante" pattern="[a-zA-Z.,:;()¿?¡! ]+" required  /></td>
+                    <td><input type="text" name="enfermedadRelevante" pattern="[a-zA-Z.,:;()¿?¡! ]+" required /></td>
                 </tr>
                 <tr>
                     <td><br /></td>

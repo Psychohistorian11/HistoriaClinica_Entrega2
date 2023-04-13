@@ -28,7 +28,7 @@
             <tr>
                 <label>Presenta esta cantidad en los costos de su tratamiento: </label>
                 <div class="text-muted">
-                    @Model.CostosTratamientos
+                    @Model.InformacionPaciente.CostosTratamientos
                 </div>
             </tr>
                 @using (Html.BeginForm("cambioCosto", "Home", FormMethod.Post))

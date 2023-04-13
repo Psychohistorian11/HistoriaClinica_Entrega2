@@ -29,7 +29,7 @@
             <tr>
                 <label>Presenta esta historia clinica: </label>
                 <div class="text-muted">
-                    @Model.HistoriaClinica
+                    @Model.InformacionPaciente.HistoriaClinica
                 </div>
             </tr>
                 @using (Html.BeginForm("cambioHistoriaClinica", "Home", FormMethod.Post))

@@ -28,7 +28,7 @@
             <tr>
                 <label>Presenta esta enfermedad más relevante:</label>
                 <div class="text-muted">
-                    @Model.EnfermedadRelevante
+                    @Model.InformacionPaciente.EnfermedadRelevante
                 </div>
             </tr>
                 @using (Html.BeginForm("cambiarEnfermedad", "Home", FormMethod.Post))

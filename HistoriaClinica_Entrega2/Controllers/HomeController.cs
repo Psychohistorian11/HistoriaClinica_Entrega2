@@ -11,19 +11,19 @@ using System.Web.Services.Description;
 
 namespace HistoriaClinica_Entrega2.Controllers
 {
-    
+
     public class HomeController : Controller
     {
 
         Clinica clinica = Clinica.ObtenerInstancia();
-
         public ActionResult MenuPrincipal()
         {
+         
             return View();
         }
         public ActionResult registro()
         {
-           
+            ViewBag.Notificacion = TempData["PacienteYaRegistrado"];
             return View();
         }
 
@@ -52,17 +52,21 @@ namespace HistoriaClinica_Entrega2.Controllers
             id = Convert.ToInt32(Request.Form["idEPSchange"]);
             EPS = Convert.ToString(Request.Form["varEPSchange"]);
 
-            if (clinica.verificarExistenciaDeIdentidad(id) == false)
+            if(!clinica.VerificarInfo.verificarExistenciaDeIdentidad(id))
             {
                 TempData["Notificacion"] = "El paciente no se encuentra en el sistema";
             }
-            else if (clinica.verificar3mesesEnEPS(id) == false)
+            else if (!clinica.VerificarInfo.verificar3mesesEnEPS(id))
             {
                 TempData["Notificacion"] = "El paciente no lleva 3 o más meses en la EPS actual";
             }
+            else if (clinica.verificarInfo.verificarSiLaEPSesLaMisma(id, EPS))
+            {
+                TempData["Notificacion"] = "El paciente ya se encuentra en esta EPS";
+            }
             else
             {
-                clinica.CambioEPS(id, EPS);
+                clinica.CambiarInfo.CambioEPS(id, EPS);
                 string idMomentaneo = Convert.ToString(id);
                 TempData["idEPSchange"] = idMomentaneo;
                 TempData.Keep("idEPSchange");
@@ -107,7 +111,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             string tipoAfiliacion;
             double costosTratamientos;
 
-            identificacion= Convert.ToInt32(Request.Form["id"]);
+            identificacion = Convert.ToInt32(Request.Form["id"]);
             nombre = Convert.ToString(Request.Form["nombre"]);
             apellidos = Convert.ToString(Request.Form["apellidos"]);
             fechaNacimiento = Convert.ToDateTime(Request.Form["fhNacimiento"]);
@@ -126,9 +130,16 @@ namespace HistoriaClinica_Entrega2.Controllers
             tipoAfiliacion = Convert.ToString(Request.Form["tipoAfiliacion"]);
             costosTratamientos = Convert.ToDouble(Request.Form["costosTratamientos"]);
 
-            Persona persona = new Persona(identificacion, nombre, apellidos, fechaNacimiento, tipoRegimen, semanasCotizadas,
-                               fechaIngreso, fechaIngresoEPS, EPS, historiaClinica, cantidadEnfermedades, enfermedadRelevante,
-                               tipoAfiliacion, costosTratamientos);
+            if (clinica.VerificarInfo.verificarExistenciaDeIdentidad(identificacion))
+            {
+                TempData["PacienteYaRegistrado"] = "El paciente identificado con el numero " + identificacion + " ya se encuentra en el sistema";
+                return RedirectToAction("registro");
+            }
+            Trabajador trabajador = new Trabajador(tipoRegimen, semanasCotizadas, fechaIngreso, fechaIngresoEPS, EPS, tipoAfiliacion);
+            Paciente informaciónPaciente = new Paciente(historiaClinica, cantidadEnfermedades, enfermedadRelevante, costosTratamientos);
+
+            Persona persona = new Persona(identificacion, nombre, apellidos, fechaNacimiento,trabajador,informaciónPaciente);
+
 
             clinica.ingresarPaciente(persona);
             return View(persona);
@@ -142,14 +153,18 @@ namespace HistoriaClinica_Entrega2.Controllers
             id = Convert.ToInt32(Request.Form["idRegimeChange"]);
             tipoAfiliacion = Convert.ToString(Request.Form["varTipoRegimenChange"]);
 
-            if (clinica.verificarExistenciaDeIdentidad(id) == false)
+            if (clinica.VerificarInfo.verificarExistenciaDeIdentidad( id) == false)
             {
                 TempData["NotificacionRegimeChange"] = "El paciente no se encuentra en el sistema";
+            }
+            else if (clinica.verificarInfo.verificarSiRegimenEsElMismo(id, tipoAfiliacion))
+            {
+                TempData["NotificacionRegimeChange"] = "El paciente ya presenta este tipo de Afiliación";
             }
             else
             {
                 Persona persona = clinica.obtenerPacientePorId(id);
-                clinica.cambiarTipoAfiliacion(persona, tipoAfiliacion);
+                clinica.CambiarInfo.cambiarTipoAfiliacion(persona, tipoAfiliacion);
                 string idMomentaneo = Convert.ToString(id);
                 TempData["idRegimeChange"] = idMomentaneo;
                 TempData.Keep("idRegimeChange");
@@ -184,7 +199,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             int id;
             id = Convert.ToInt32(Request.Form["idHistoria"]);
 
-            if (clinica.verificarExistenciaDeIdentidad(id) == false)
+            if (clinica.VerificarInfo.verificarExistenciaDeIdentidad( id) == false)
             {
                 TempData["NotificacionActualizarHistoria"] = "El paciente no se encuentra en el sistema";
             }
@@ -215,7 +230,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             int datoEntero = Convert.ToInt32(dato);
             string historia = Convert.ToString(Request.Form["nuevaHistoriaClinica"]);
             Persona persona = clinica.obtenerPacientePorId(datoEntero);
-            clinica.cambiarHistoriaClinica(persona, historia);
+            clinica.CambiarInfo.cambiarHistoriaClinica(persona, historia);
 
             TempData["cambioHistoriaClinicaRealizado"] = "La historia clinica se ha modificado con éxito";
             return RedirectToAction("mostrarActualizarHistoria");
@@ -233,7 +248,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             int id;
             id = Convert.ToInt32(Request.Form["idCosto"]);
 
-            if (clinica.verificarExistenciaDeIdentidad(id) == false)
+            if (clinica.VerificarInfo.verificarExistenciaDeIdentidad(id) == false)
             {
                 TempData["NotificacionActualizarCosto"] = "El paciente no se encuentra en el sistema";
             }
@@ -264,7 +279,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             int datoEntero = Convert.ToInt32(dato);
             int costo = Convert.ToInt32(Request.Form["nuevoCosto"]);
             Persona persona = clinica.obtenerPacientePorId(datoEntero);
-            clinica.cambiarCostoTratamientos(persona, costo);
+            clinica.CambiarInfo.cambiarCostoTratamientos(persona, costo);
 
             TempData["cambioCostoTratamientosRealizado"] = "El costo de los tratamientos del paciente se ha actualizado con éxito";
             return RedirectToAction("mostrarActualizarCosto");
@@ -282,7 +297,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             int id;
             id = Convert.ToInt32(Request.Form["idEnfermedad"]);
 
-            if (clinica.verificarExistenciaDeIdentidad(id) == false)
+            if (clinica.VerificarInfo.verificarExistenciaDeIdentidad(id) == false)
             {
                 TempData["NotificacionActualizarEnfermedad"] = "El paciente no se encuentra en el sistema";
             }
@@ -314,7 +329,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             int datoEntero = Convert.ToInt32(dato);
             string enfermedad = Convert.ToString(Request.Form["nuevaEnfermedad"]);
             Persona persona = clinica.obtenerPacientePorId(datoEntero);
-            clinica.cambiarEnfermedadRelevante(persona, enfermedad);
+            clinica.CambiarInfo.cambiarEnfermedadRelevante(persona, enfermedad);
 
             TempData["cambioEnfermedadRealizado"] = "La enfermedad más relevante del paciente se ha actualizado con éxito";
             return RedirectToAction("mostrarActualizarEnfermedad");

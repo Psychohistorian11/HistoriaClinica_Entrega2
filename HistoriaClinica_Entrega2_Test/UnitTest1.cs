@@ -24,8 +24,10 @@ namespace HistoriaClinica_Entrega2_Test
             string tipoAfiliacion = "Cotizante";
             double costosTratamientos = 1000000;
 
-            Persona paciente = new Persona(identificacion, nombre, apellidos, fechaNacimiento, tipoRegimen, semanasCotizadas, fechaIngreso, fechaIngresoEPS
-                                , EPS, historiaClinica, cantidadEnfermedades, enfermedadRelevante, tipoAfiliacion, costosTratamientos);
+            Trabajador trabajador = new Trabajador(tipoRegimen,semanasCotizadas,fechaIngreso,fechaIngresoEPS,EPS,tipoAfiliacion);
+
+            Paciente informacionPaciente = new Paciente(historiaClinica, cantidadEnfermedades, enfermedadRelevante, costosTratamientos);
+            Persona paciente = new Persona(identificacion, nombre, apellidos, fechaNacimiento, trabajador,informacionPaciente);
 
             return paciente;
         }
@@ -59,7 +61,7 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
 
-            bool actual = target.verificarExistenciaDeIdentidad(paciente.Identificacion);
+            bool actual = target.verificarInfo.verificarExistenciaDeIdentidad(paciente.Identificacion);
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -78,13 +80,13 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             Persona paciente_N2 = crearPaciente();
             paciente_N2.Identificacion = 200;
-            paciente_N2.FechaIngresoEPS = DateTime.Now.Date;
+            paciente_N2.Trabajador.FechaIngresoEPS = DateTime.Now.Date;
             
             target.ingresarPaciente(paciente);
             target.ingresarPaciente(paciente_N2);
 
-            bool actual = target.verificar3mesesEnEPS(paciente.Identificacion);
-            bool actual_N2 = target.verificar3mesesEnEPS(paciente_N2.Identificacion);
+            bool actual = target.verificarInfo.verificar3mesesEnEPS(paciente.Identificacion);
+            bool actual_N2 = target.verificarInfo.verificar3mesesEnEPS(paciente_N2.Identificacion);
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -105,10 +107,10 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
 
-            Persona actual = target.CambioEPS(paciente.Identificacion, EPS_a_cambiar);
+            Persona actual = target.cambiarInfo.CambioEPS(paciente.Identificacion, EPS_a_cambiar);
 
             //Assert
-            Assert.AreEqual(expected, actual.EPS1);
+            Assert.AreEqual(expected, actual.Trabajador.EPS);
 
         }
 
@@ -123,10 +125,10 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
 
-            target.cambiarTipoAfiliacion(paciente, expected);
+            target.cambiarInfo.cambiarTipoAfiliacion(paciente, expected);
 
             //Assert
-            Assert.AreEqual(expected, paciente.TipoAfiliacion);
+            Assert.AreEqual(expected, paciente.Trabajador.TipoAfiliacion);
 
         }
 
@@ -141,10 +143,10 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
 
-            target.cambiarHistoriaClinica(paciente, expected);
+            target.cambiarInfo.cambiarHistoriaClinica(paciente, expected);
 
             //Assert
-            Assert.AreEqual(expected, paciente.HistoriaClinica);
+            Assert.AreEqual(expected, paciente.InformacionPaciente.HistoriaClinica);
         }
 
         [TestMethod()]
@@ -158,10 +160,10 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
 
-            target.cambiarCostoTratamientos(paciente, expected);
+            target.cambiarInfo.cambiarCostoTratamientos(paciente, expected);
 
             //Assert
-            Assert.AreEqual(expected, paciente.CostosTratamientos);
+            Assert.AreEqual(expected, paciente.InformacionPaciente.CostosTratamientos);
         }
 
         [TestMethod()]
@@ -175,10 +177,10 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
 
-            target.cambiarEnfermedadRelevante(paciente, expected);
+            target.cambiarInfo.cambiarEnfermedadRelevante(paciente, expected);
 
             //Assert
-            Assert.AreEqual(expected, paciente.EnfermedadRelevante);
+            Assert.AreEqual(expected, paciente.InformacionPaciente.EnfermedadRelevante);
         }
 
         [TestMethod()]
@@ -193,7 +195,7 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
 
-            bool actual = target.verificarExistenciaDeIdentidad(id);
+            bool actual = target.verificarInfo.verificarExistenciaDeIdentidad(id);
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -203,17 +205,17 @@ namespace HistoriaClinica_Entrega2_Test
         public void calcularPorcentajePacienteSinEnfermedadTest()
         {
             //Arrange
-            HistoriaClinica_Entrega2.Models.Clinica target1 = new HistoriaClinica_Entrega2.Models.Clinica();
+            HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
             double expected = 50;
 
             //Act
             Persona paciente = crearPaciente();
-            target1.ingresarPaciente(paciente);
+            target.ingresarPaciente(paciente);
             Persona paciente_N2 = crearPaciente();
-            paciente_N2.CantidadEnfermedades = 0;
-            target1.ingresarPaciente(paciente_N2);
+            paciente_N2.InformacionPaciente.CantidadEnfermedades = 0;
+            target.ingresarPaciente(paciente_N2);
 
-            double actual = target1.calcularPorcentajePacienteSinEnfermedad();
+            double actual = target.calcularInfo.calcularPorcentajePacienteSinEnfermedad();
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -232,10 +234,10 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente_N4 = crearPaciente();
             Persona paciente_N5 = crearPaciente();
 
-            paciente_N2.EPS1 = "Nueva EPS";
-            paciente_N3.EPS1 = "Salud Total";
-            paciente_N4.EPS1 = "Sanitas";
-            paciente_N5.EPS1 = "Savia";
+            paciente_N2.Trabajador.EPS = "Nueva EPS";
+            paciente_N3.Trabajador.EPS = "Salud Total";
+            paciente_N4.Trabajador.EPS = "Sanitas";
+            paciente_N5.Trabajador.EPS = "Savia";
 
             target.ingresarPaciente(paciente);
             target.ingresarPaciente(paciente_N2);
@@ -244,7 +246,7 @@ namespace HistoriaClinica_Entrega2_Test
             target.ingresarPaciente(paciente_N5);
 
 
-            List<double> lista = target.calcularPorcentajeCostosPorEPS();
+            List<double> lista = target.calcularInfo.calcularPorcentajeCostosPorEPS();
 
             //Assert
             Assert.AreEqual(expected, Math.Round(lista[0], 0));
@@ -277,25 +279,25 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente_N8Savia = crearPaciente();
             Persona paciente_N9Savia = crearPaciente();
 
-            paciente_N1Sura.EPS1 = "Sura";
-            paciente_N2Sura.EPS1 = "Sura";
-            paciente_N3NuevaEPS.EPS1 = "Nueva EPS";
-            paciente_N4SaludTotal.EPS1 = "Salud Total";
-            paciente_N5SaludTotal.EPS1 = "Salud Total";
-            paciente_N6Sanitas.EPS1 = "Sanitas";
-            paciente_N7Sanitas.EPS1 = "Sanitas";
-            paciente_N8Savia.EPS1 = "Savia";
-            paciente_N9Savia.EPS1 = "Savia";
+            paciente_N1Sura.Trabajador.EPS = "Sura";
+            paciente_N2Sura.Trabajador.EPS = "Sura";
+            paciente_N3NuevaEPS.Trabajador.EPS = "Nueva EPS";
+            paciente_N4SaludTotal.Trabajador.EPS = "Salud Total";
+            paciente_N5SaludTotal.Trabajador.EPS = "Salud Total";
+            paciente_N6Sanitas.Trabajador.EPS = "Sanitas";
+            paciente_N7Sanitas.Trabajador.EPS= "Sanitas";
+            paciente_N8Savia.Trabajador.EPS = "Savia";
+            paciente_N9Savia.Trabajador.EPS = "Savia";
 
-            paciente_N1Sura.CostosTratamientos = 1000000;
-            paciente_N2Sura.CostosTratamientos = 200000;
-            paciente_N3NuevaEPS.CostosTratamientos = 2000000;
-            paciente_N4SaludTotal.CostosTratamientos = 250000;
-            paciente_N5SaludTotal.CostosTratamientos = 250000;
-            paciente_N6Sanitas.CostosTratamientos = 1500000;
-            paciente_N7Sanitas.CostosTratamientos = 1500000;
-            paciente_N8Savia.CostosTratamientos = 600000;
-            paciente_N9Savia.CostosTratamientos = 600000;
+            paciente_N1Sura.InformacionPaciente.CostosTratamientos = 1000000;
+            paciente_N2Sura.InformacionPaciente.CostosTratamientos = 200000;
+            paciente_N3NuevaEPS.InformacionPaciente.CostosTratamientos = 2000000;
+            paciente_N4SaludTotal.InformacionPaciente.CostosTratamientos = 250000;
+            paciente_N5SaludTotal.InformacionPaciente.CostosTratamientos = 250000;
+            paciente_N6Sanitas.InformacionPaciente.CostosTratamientos = 1500000;
+            paciente_N7Sanitas.InformacionPaciente.CostosTratamientos = 1500000;
+            paciente_N8Savia.InformacionPaciente.CostosTratamientos = 600000;
+            paciente_N9Savia.InformacionPaciente.CostosTratamientos = 600000;
 
             target.ingresarPaciente(paciente_N1Sura);
             target.ingresarPaciente(paciente_N2Sura);
@@ -308,7 +310,7 @@ namespace HistoriaClinica_Entrega2_Test
             target.ingresarPaciente(paciente_N9Savia);
 
 
-            List<double> lista = target.calcularTotalCostosPorEPS();
+            List<double> lista = target.calcularInfo.calcularTotalCostosPorEPS();
 
             //Assert
             Assert.AreEqual(expectedSura, Math.Round(lista[0], 0));
@@ -332,10 +334,10 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target1.ingresarPaciente(paciente);
             Persona paciente_N2 = crearPaciente();
-            paciente_N2.EnfermedadRelevante = "Sida";
+            paciente_N2.InformacionPaciente.EnfermedadRelevante = "Sida";
             target1.ingresarPaciente(paciente_N2);
 
-            double actual = target1.calcularTotalPacientesCancer();
+            double actual = target1.calcularInfo.calcularTotalPacientesCancer();
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -370,7 +372,7 @@ namespace HistoriaClinica_Entrega2_Test
             target.ingresarPaciente(paciente_N5);
 
 
-            List<double> actual = target.calcularPorcentajesPorEdad();
+            List<double> actual = target.calcularInfo.calcularPorcentajesPorEdad();
 
             //Assert
             Assert.AreEqual(expected, Math.Round(actual[0], 0));
@@ -393,13 +395,13 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
             Persona paciente_N2 = crearPaciente();
-            paciente_N2.CostosTratamientos = 800000;
+            paciente_N2.InformacionPaciente.CostosTratamientos = 800000;
             target.ingresarPaciente(paciente_N2);
 
-            Persona actual = target.encontrarMayorCosto();
+            Persona actual = target.calcularInfo.encontrarMayorCosto();
 
             //Assert
-            Assert.AreEqual(expected, actual.CostosTratamientos);
+            Assert.AreEqual(expected, actual.InformacionPaciente.CostosTratamientos);
 
 
 
@@ -416,10 +418,10 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
             Persona paciente_N2 = crearPaciente();
-            paciente_N2.TipoRegimen = "Subsidiado";
+            paciente_N2.Trabajador.TipoRegimen = "Subsidiado";
             target.ingresarPaciente(paciente_N2);
 
-            List<double> actual = target.calcularPacientesPorRegimen();
+            List<double> actual = target.calcularInfo.calcularPacientesPorRegimen();
 
             //Assert
             Assert.AreEqual(expected, actual[0]);
@@ -438,10 +440,10 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
             Persona paciente_N2 = crearPaciente();
-            paciente_N2.TipoAfiliacion = "Beneficiario";
+            paciente_N2.Trabajador.TipoAfiliacion = "Beneficiario";
             target.ingresarPaciente(paciente_N2);
 
-            List<double> actual = target.calcularPorcentajePacientesPorTipoAfiliacion();
+            List<double> actual = target.calcularInfo.calcularPorcentajePacientesPorTipoAfiliacion();
 
             //Assert
             Assert.AreEqual(expected, actual[0]);

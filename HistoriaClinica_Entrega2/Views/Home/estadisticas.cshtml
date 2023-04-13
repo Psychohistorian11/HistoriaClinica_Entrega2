@@ -1,8 +1,7 @@
 ﻿@model HistoriaClinica_Entrega2.Models.Clinica
-
-@{
-    ViewBag.Title = "estadisticas";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+@{ 
+        ViewBag.Title = "estadisticas";
+        Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <html>
@@ -16,14 +15,15 @@
         <form action="estadisticas" method="post">
             <table>
                 @{
-                    List<double> porcentajeCostosPorEPS = Model.calcularPorcentajeCostosPorEPS();
-                    List<double> totalCostosPorEPS = Model.calcularTotalCostosPorEPS();
-                    double PorcentajePacientesSinEnfermedades = Model.calcularPorcentajePacienteSinEnfermedad();
-                    double pacientesEnfermidadMasRelevanteCancer = Model.calcularTotalPacientesCancer();
-                    var pacienteMayorCostosDeTratamientos = Model.encontrarMayorCosto();
-                    List<double> porcentajePacientesEdad = Model.calcularPorcentajesPorEdad();
-                    List<double> pacientePorRegimen = Model.calcularPacientesPorRegimen();
-                    List<double> porcentajePacientesPorTipoAfiliacion = Model.calcularPorcentajePacientesPorTipoAfiliacion();
+                    
+                    List<double> porcentajeCostosPorEPS = Model.CalcularInfo.calcularPorcentajeCostosPorEPS();
+                    List<double> totalCostosPorEPS = Model.CalcularInfo.calcularTotalCostosPorEPS();
+                    double PorcentajePacientesSinEnfermedades = Model.CalcularInfo.calcularPorcentajePacienteSinEnfermedad();
+                    double pacientesEnfermidadMasRelevanteCancer = Model.CalcularInfo.calcularTotalPacientesCancer();
+                    var pacienteMayorCostosDeTratamientos = Model.CalcularInfo.encontrarMayorCosto();
+                    List<double> porcentajePacientesEdad = Model.CalcularInfo.calcularPorcentajesPorEdad();
+                    List<double> pacientePorRegimen = Model.CalcularInfo.calcularPacientesPorRegimen();
+                    List<double> porcentajePacientesPorTipoAfiliacion = Model.CalcularInfo.calcularPorcentajePacientesPorTipoAfiliacion();
                 }
                 <tr>
                     <td>
@@ -83,7 +83,7 @@
                             Presenta el tratamiento mas costoso con:
                         </div>
                         <div class="text-muted">
-                            ==> @pacienteMayorCostosDeTratamientos.CostosTratamientos $
+                            ==> @pacienteMayorCostosDeTratamientos.InformacionPaciente.CostosTratamientos $
                         </div>
 
 </td>
