@@ -36,6 +36,7 @@ namespace HistoriaClinica_Entrega2_Test
         {
             //Arrange
             HistoriaClinica_Entrega2.Models.Clinica target = HistoriaClinica_Entrega2.Models.Clinica.ObtenerInstancia();
+            target.ListaDePacientes.Clear();
             int expected = 100;
 
 
@@ -54,7 +55,7 @@ namespace HistoriaClinica_Entrega2_Test
         public void verificarExistenciaDeIdentidadTest()
         {
             //Arrange
-            HistoriaClinica_Entrega2.Models.Clinica target = HistoriaClinica_Entrega2.Models.Clinica.ObtenerInstancia();
+            HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
             bool expected = true;
 
             //Act
@@ -68,11 +69,11 @@ namespace HistoriaClinica_Entrega2_Test
             
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void verificar3mesesEnEPSTest()
         {
             //Arrange
-            HistoriaClinica_Entrega2.Models.Clinica target = HistoriaClinica_Entrega2.Models.Clinica.ObtenerInstancia();
+            HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
             bool expected = true;
             bool expected_N2 = false;
 
@@ -99,7 +100,7 @@ namespace HistoriaClinica_Entrega2_Test
         public void CambioEPSTest()
         {
             //Arrange
-            HistoriaClinica_Entrega2.Models.Clinica target = HistoriaClinica_Entrega2.Models.Clinica.ObtenerInstancia();
+            HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
             string expected = "Nueva EPS";
 
             //Act
@@ -107,10 +108,10 @@ namespace HistoriaClinica_Entrega2_Test
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
 
-            Persona actual = target.cambiarInfo.CambioEPS(paciente.Identificacion, EPS_a_cambiar);
+            target.cambiarInfo.CambioEPS(paciente.Identificacion, EPS_a_cambiar);
 
             //Assert
-            Assert.AreEqual(expected, actual.Trabajador.EPS);
+            Assert.AreEqual(expected, paciente.Trabajador.EPS);
 
         }
 
@@ -118,14 +119,14 @@ namespace HistoriaClinica_Entrega2_Test
         public void cambiarTipoAfiliacionTest()
         {
             //Arrange
-            HistoriaClinica_Entrega2.Models.Clinica target = HistoriaClinica_Entrega2.Models.Clinica.ObtenerInstancia();
-            string expected = "Beneficiario";
+            HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
+            string expected = "Cotizante";
 
             //Act
             Persona paciente = crearPaciente();
             target.ingresarPaciente(paciente);
 
-            target.cambiarInfo.cambiarTipoAfiliacion(paciente, expected);
+            target.cambiarInfo.cambiarTipoRegimen(paciente, expected);
 
             //Assert
             Assert.AreEqual(expected, paciente.Trabajador.TipoAfiliacion);
@@ -136,7 +137,7 @@ namespace HistoriaClinica_Entrega2_Test
         public void cambiarHistoriaClinicaTest()
         {
             //Arrange
-            HistoriaClinica_Entrega2.Models.Clinica target = HistoriaClinica_Entrega2.Models.Clinica.ObtenerInstancia();
+            HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
             string expected = "Nueva Historia Clinica";
 
             //Act
@@ -153,7 +154,7 @@ namespace HistoriaClinica_Entrega2_Test
         public void cambiarCostoTratamientosTest()
         {
             //Arrange
-            HistoriaClinica_Entrega2.Models.Clinica target = HistoriaClinica_Entrega2.Models.Clinica.ObtenerInstancia();
+            HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
             int expected = 2000000;
 
             //Act
@@ -170,7 +171,7 @@ namespace HistoriaClinica_Entrega2_Test
         public void cambiarEnfermedadRelevanteTest()
         {
             //Arrange
-            HistoriaClinica_Entrega2.Models.Clinica target = HistoriaClinica_Entrega2.Models.Clinica.ObtenerInstancia();
+            HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
             string expected = "Sida";
 
             //Act
@@ -187,7 +188,7 @@ namespace HistoriaClinica_Entrega2_Test
         public void ingresarPacienteTest()
         {
             //Arrange
-            HistoriaClinica_Entrega2.Models.Clinica target = HistoriaClinica_Entrega2.Models.Clinica.ObtenerInstancia();
+            HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
             bool expected = true;
             int id = 100;
 
@@ -201,11 +202,12 @@ namespace HistoriaClinica_Entrega2_Test
             Assert.AreEqual(expected, actual);
 
         }
-        [TestMethod()]
+        [TestMethod]
         public void calcularPorcentajePacienteSinEnfermedadTest()
         {
             //Arrange
             HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
+            target.ListaDePacientes.Clear();
             double expected = 50;
 
             //Act
@@ -220,15 +222,16 @@ namespace HistoriaClinica_Entrega2_Test
             //Assert
             Assert.AreEqual(expected, actual);
         }
-        [TestMethod()]
+        [TestMethod]
         public void calcularTotalCostosPorEPSTest()
         {
             //Arrange
             HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
+            target.ListaDePacientes.Clear();
             double expected = 20;
 
             //Act
-            Persona paciente = crearPaciente();
+            Persona paciente    = crearPaciente();
             Persona paciente_N2 = crearPaciente();
             Persona paciente_N3 = crearPaciente();
             Persona paciente_N4 = crearPaciente();
@@ -257,11 +260,13 @@ namespace HistoriaClinica_Entrega2_Test
 
 
         }
-        [TestMethod()]
+        [TestMethod]
         public void calcularPorcentajeCostosPorEPSTest()
         {
             //Arrange
             HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
+            target.ListaDePacientes.Clear();
+
             double expectedSura = 1200000;
             double expectedNuevaEPS = 2000000;
             double expectedSaludTotal = 500000;
@@ -322,12 +327,13 @@ namespace HistoriaClinica_Entrega2_Test
 
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void calcularTotalPacientesCancerTest()
         {
 
             //Arrange
             HistoriaClinica_Entrega2.Models.Clinica target1 = new HistoriaClinica_Entrega2.Models.Clinica();
+            target1.ListaDePacientes.Clear();
             int expected = 1;
 
             //Act
@@ -344,11 +350,12 @@ namespace HistoriaClinica_Entrega2_Test
             
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void calcularPorcentajesPorEdadTest()
         {
             //Arrange
             HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
+            target.ListaDePacientes.Clear();
             int expected = 20;
 
             //Act
@@ -412,6 +419,7 @@ namespace HistoriaClinica_Entrega2_Test
         {
             //Arrange
             HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
+            target.ListaDePacientes.Clear();
             int expected = 50;
 
             //Act
@@ -429,11 +437,12 @@ namespace HistoriaClinica_Entrega2_Test
             
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void calcularPorcentajePacientesPorTipoAfiliacionTest()
         {
             //Arrange
             HistoriaClinica_Entrega2.Models.Clinica target = new HistoriaClinica_Entrega2.Models.Clinica();
+            target.ListaDePacientes.Clear();
             int expected = 50;
 
             //Act

@@ -9,9 +9,9 @@ namespace HistoriaClinica_Entrega2.Models
     {
         List<Persona> listaDePacientes = Clinica.listaDePacientes;
 
-        public void cambiarTipoAfiliacion(Persona paciente, string tipoAfiliacion)
+        public void cambiarTipoRegimen(Persona paciente, string tipoRegimen)
         {
-            paciente.Trabajador.TipoAfiliacion = tipoAfiliacion;
+            paciente.Trabajador.TipoRegimen = tipoRegimen;
         }
 
         public void cambiarHistoriaClinica(Persona paciente, string historia)
@@ -28,7 +28,7 @@ namespace HistoriaClinica_Entrega2.Models
         {
             paciente.InformacionPaciente.EnfermedadRelevante = enfermedad;
         }
-        public Persona CambioEPS(int identificacion, string EPS)
+        public void CambioEPS(int identificacion, string EPS)
         {
 
             foreach (Persona paciente in listaDePacientes)
@@ -36,11 +36,10 @@ namespace HistoriaClinica_Entrega2.Models
                 if (paciente.Identificacion == identificacion)
                 {
                     paciente.Trabajador.EPS = EPS;
-                    return paciente;
+                    paciente.Trabajador.FechaIngresoEPS = DateTime.Now;
+                    
                 }
-
             }
-            return null;
         }
     }
 }

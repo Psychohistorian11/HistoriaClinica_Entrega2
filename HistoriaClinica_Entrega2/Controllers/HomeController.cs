@@ -164,7 +164,7 @@ namespace HistoriaClinica_Entrega2.Controllers
             else
             {
                 Persona persona = clinica.obtenerPacientePorId(id);
-                clinica.CambiarInfo.cambiarTipoAfiliacion(persona, tipoAfiliacion);
+                clinica.CambiarInfo.cambiarTipoRegimen(persona, tipoAfiliacion);
                 string idMomentaneo = Convert.ToString(id);
                 TempData["idRegimeChange"] = idMomentaneo;
                 TempData.Keep("idRegimeChange");

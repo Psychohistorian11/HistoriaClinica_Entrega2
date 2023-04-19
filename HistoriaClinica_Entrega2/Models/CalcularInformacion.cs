@@ -163,13 +163,23 @@ namespace HistoriaClinica_Entrega2.Models
         }
         public List<double> calcularPacientesPorRegimen()
         {
-
+            double porcentajeContributivo;
+            double porcentajeSubsidiado;
             List<double> porcentajes = new List<double>();
             List<Persona> afiliadosContributivo = listaDePacientes.Where(afiliado => afiliado.Trabajador.TipoRegimen == "Contributivo").ToList();
             List<Persona> afiliadosSubsidiado = listaDePacientes.Where(afiliado => afiliado.Trabajador.TipoRegimen == "Subsidiado").ToList();
 
-            double porcentajeContributivo = (Convert.ToDouble(afiliadosContributivo.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
-            double porcentajeSubsidiado = (Convert.ToDouble(afiliadosSubsidiado.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
+            try
+            {
+                porcentajeContributivo = (Convert.ToDouble(afiliadosContributivo.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
+                porcentajeSubsidiado = (Convert.ToDouble(afiliadosSubsidiado.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
+            }
+            catch(DivideByZeroException)
+            {
+                porcentajeContributivo = 0;
+                porcentajeSubsidiado = 0;
+            }
+
             porcentajes.Add(porcentajeContributivo);
             porcentajes.Add(porcentajeSubsidiado);
             return porcentajes;
@@ -177,11 +187,22 @@ namespace HistoriaClinica_Entrega2.Models
 
         public List<double> calcularPorcentajePacientesPorTipoAfiliacion()
         {
+            double porcentajeCotizante;
+            double porcentajeBeneficiario;
             List<Persona> afiliadosCotizantes = listaDePacientes.Where(paciente => paciente.Trabajador.TipoAfiliacion == "Cotizante").ToList();
             List<Persona> afiliadosBeneficiarios = listaDePacientes.Where(paciente => paciente.Trabajador.TipoAfiliacion == "Beneficiario").ToList();
-            double porcentajeCotizantes = (Convert.ToDouble(afiliadosCotizantes.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
-            double porcentajeBeneficiarios = (Convert.ToDouble(afiliadosBeneficiarios.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
-            List<double> porcentajes = new List<double> { porcentajeCotizantes, porcentajeBeneficiarios };
+            try
+            {
+                porcentajeCotizante = (Convert.ToDouble(afiliadosCotizantes.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
+                porcentajeBeneficiario = (Convert.ToDouble(afiliadosBeneficiarios.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
+            }
+            catch (DivideByZeroException)
+            {
+                porcentajeCotizante = 0;
+                porcentajeBeneficiario = 0;
+            }
+
+            List<double> porcentajes = new List<double> { porcentajeCotizante, porcentajeBeneficiario };
             return porcentajes;
 
         }
