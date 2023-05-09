@@ -15,7 +15,7 @@ namespace HistoriaClinica_Entrega2.Models
         SqlConnection sqlConnection = new SqlConnection(connection.conexion);
         
 
-        public DataSet buscarTodos()
+        /*public DataSet buscarTodos()
         {
 
             String query = "SELECT IdCliente, TipoDocumento, NumeroDocumento, Nombre, Apellidos, Direccion, Celular, FhNacimiento, Email FROM tbClientes";
@@ -29,7 +29,7 @@ namespace HistoriaClinica_Entrega2.Models
 
             return dataSet;
 
-        }
+        }*/
 
         public List<Persona> ObtnerInformacionPacientesBD()
         {
@@ -132,7 +132,7 @@ namespace HistoriaClinica_Entrega2.Models
                                 command3.Parameters.AddWithValue("@id_Trabajador", trabajadorId); // Usa el ID del trabajador recién insertado
 
                                 // Ejecuta la sentencia
-                                command3.ExecuteNonQuery();
+                                command3.ExecuteNonQuery();     
                             }
                         }
                     }
@@ -147,6 +147,177 @@ namespace HistoriaClinica_Entrega2.Models
                     throw ex;
                 }
 
+            }
+        }
+
+        public void EliminarPaciente(int idPaciente)
+        {
+            using (SqlConnection sqlconnection = new SqlConnection(connection.conexion))
+            {
+                sqlconnection.Open();
+                SqlTransaction transaction = sqlconnection.BeginTransaction();
+
+                    SqlCommand command = new SqlCommand("SELECT id_Trabajador FROM TbPersona WHERE identificacion = @identificacion", sqlconnection,transaction);
+                    command.Parameters.AddWithValue("@identificacion", idPaciente);
+
+                    int idTrabajadorPersonaBD = Convert.ToInt32(command.ExecuteScalar());
+
+                    SqlCommand command2 = new SqlCommand("SELECT id_Paciente FROM TbPersona WHERE identificacion = @identificacion", sqlconnection,transaction);
+                    command2.Parameters.AddWithValue("@identificacion", idPaciente);
+
+                    int idPacientePersonaBD = Convert.ToInt32(command.ExecuteScalar());
+
+
+                SqlCommand commandPersona = new SqlCommand("DELETE FROM TbPersona WHERE identificacion = @idPersona", sqlconnection, transaction);
+                    commandPersona.Parameters.AddWithValue("@idPersona", idPaciente);
+                    commandPersona.ExecuteNonQuery();
+                // Eliminar registro de TbTrabajador
+                    SqlCommand commandTrabajador = new SqlCommand("DELETE FROM TbTrabajador WHERE id_Trabajador = @idTrabajador", sqlconnection, transaction);
+                    commandTrabajador.Parameters.AddWithValue("@idTrabajador", idTrabajadorPersonaBD);
+                    commandTrabajador.ExecuteNonQuery();
+
+                    // Eliminar registro de TbPaciente
+                    SqlCommand commandPaciente = new SqlCommand("DELETE FROM TbPaciente WHERE id_Paciente = @idPaciente", sqlconnection, transaction);
+                    commandPaciente.Parameters.AddWithValue("@idPaciente", idPacientePersonaBD);
+                    commandPaciente.ExecuteNonQuery();
+
+                    // Eliminar registro de TbPersona
+                    
+
+                    // Confirmar la transacción
+                    transaction.Commit();
+                    sqlconnection.Close();
+                
+            }
+        }
+        
+
+        public void cambiarTipoRegimenBD(Persona paciente, string TipoRegimen)
+        {
+            using (SqlConnection sqlconnection = new SqlConnection(connection.conexion))
+            {
+                sqlconnection.Open();
+                SqlCommand command = new SqlCommand("SELECT id_Trabajador FROM TbPersona WHERE identificacion = @identificacion", sqlconnection);
+                command.Parameters.AddWithValue("@identificacion", paciente.Identificacion);
+
+                int idTrabajadorPersonaBD = Convert.ToInt32(command.ExecuteScalar());
+
+                String query = "UPDATE TbTrabajador SET tipoRegimen = @nuevoTipoReimgen WHERE id_Trabajador = @id_Trabajador";
+                var parametros = new List<SqlParameter>
+                {
+                        new SqlParameter("@id_Trabajador", idTrabajadorPersonaBD),
+                        new SqlParameter("@nuevoTipoRegimen", TipoRegimen)
+                };
+
+                SqlCommand updateCommand = new SqlCommand(query, sqlconnection);
+                updateCommand.Parameters.AddRange(parametros.ToArray());
+
+                updateCommand.ExecuteNonQuery();
+                sqlconnection.Close();
+            }
+        }
+
+        public void cambiarHistoriaClinicaBD(Persona paciente, string nuevaHistoriaClinica)
+        {
+
+            using (SqlConnection sqlconnection = new SqlConnection(connection.conexion))
+            {
+                sqlconnection.Open();
+                SqlCommand command = new SqlCommand("SELECT id_Paciente FROM TbPersona WHERE identificacion = @identificacion", sqlconnection);
+                command.Parameters.AddWithValue("@identificacion", paciente.Identificacion);
+
+                int idPacientePersonaBD = Convert.ToInt32(command.ExecuteScalar());
+
+                String query = "UPDATE TbPaciente SET historiaClinica = @nuevaHistoriaClinica WHERE id_Paciente = @id_Paciente";
+                var parametros = new List<SqlParameter>
+                {
+                        new SqlParameter("@id_Paciente", idPacientePersonaBD),
+                        new SqlParameter("@nuevaHistoriaClinica", nuevaHistoriaClinica)
+                };
+
+                SqlCommand updateCommand = new SqlCommand(query, sqlconnection);
+                updateCommand.Parameters.AddRange(parametros.ToArray());
+
+                updateCommand.ExecuteNonQuery();
+                sqlconnection.Close();
+            }
+        }
+
+        public void cambiarCostoTratamientosBD(Persona paciente, int nuevoCostoTratamientos)
+        {
+            using (SqlConnection sqlconnection = new SqlConnection(connection.conexion))
+            {
+                sqlconnection.Open();
+                SqlCommand command = new SqlCommand("SELECT id_Paciente FROM TbPersona WHERE identificacion = @identificacion", sqlconnection);
+                command.Parameters.AddWithValue("@identificacion", paciente.Identificacion);
+
+                int idPacientePersonaBD = Convert.ToInt32(command.ExecuteScalar());
+
+                String query = "UPDATE TbPaciente SET costoTratamientos = @nuevoCosto WHERE id_Paciente = @id_Paciente";
+                var parametros = new List<SqlParameter>
+                {
+                        new SqlParameter("@id_Paciente", idPacientePersonaBD),
+                        new SqlParameter("@nuevoCosto", nuevoCostoTratamientos)
+                };
+
+                SqlCommand updateCommand = new SqlCommand(query, sqlconnection);
+                updateCommand.Parameters.AddRange(parametros.ToArray());
+
+                updateCommand.ExecuteNonQuery();
+                sqlconnection.Close();
+            }
+        }
+
+        public void cambiarEnfermedadRelevante(Persona paciente, string enfermedad)
+        {
+            using (SqlConnection sqlconnection = new SqlConnection(connection.conexion))
+            {
+                sqlconnection.Open();
+                SqlCommand command = new SqlCommand("SELECT id_Paciente FROM TbPersona WHERE identificacion = @identificacion", sqlconnection);
+                command.Parameters.AddWithValue("@identificacion", paciente.Identificacion);
+
+                int idPacientePersonaBD = Convert.ToInt32(command.ExecuteScalar());
+
+                String query = "UPDATE TbPaciente SET enfermedadMasRelevante = @nuevaEnfermedadRelevante WHERE id_Paciente = @id_Paciente";
+                var parametros = new List<SqlParameter>
+                {
+                        new SqlParameter("@id_Paciente", idPacientePersonaBD),
+                        new SqlParameter("@nuevaEnfermedadRelevante", enfermedad)
+                };
+
+                SqlCommand updateCommand = new SqlCommand(query, sqlconnection);
+                updateCommand.Parameters.AddRange(parametros.ToArray());
+
+                updateCommand.ExecuteNonQuery();
+                sqlconnection.Close();
+            }
+        }
+
+        public void CambioEPSBD(int identificacion, string EPS)
+        {
+            using (SqlConnection sqlconnection = new SqlConnection(connection.conexion))
+            {
+                sqlconnection.Open();
+                SqlCommand command = new SqlCommand("SELECT id_Trabajador FROM TbPersona WHERE identificacion = @identificacion", sqlconnection);
+                command.Parameters.AddWithValue("@identificacion", identificacion);
+
+                int idTrabajadorPersonaBD = Convert.ToInt32(command.ExecuteScalar());
+
+                String query = "UPDATE TbTrabajador SET Eps = @nuevaEPS, fechaIngresoEPS = GETDATE() WHERE id_Trabajador = @id_Trabajador";
+
+                var parametros = new List<SqlParameter>
+                {
+                        new SqlParameter("@id_Trabajador", idTrabajadorPersonaBD),
+                        new SqlParameter("@nuevaEPS", EPS)
+                };
+
+                SqlCommand updateCommand = new SqlCommand(query, sqlconnection);
+                updateCommand.Parameters.AddRange(parametros.ToArray());
+                
+
+                updateCommand.ExecuteNonQuery();
+                
+                sqlconnection.Close();
             }
         }
 

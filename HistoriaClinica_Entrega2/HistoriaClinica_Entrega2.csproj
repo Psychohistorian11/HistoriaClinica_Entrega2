@@ -194,6 +194,7 @@
     <Content Include="Views\Home\estadisticas.cshtml" />
     <Content Include="Views\Home\seNecesitaRegistro.cshtml" />
     <Content Include="Views\Home\verPacientes.cshtml" />
+    <Content Include="Views\Home\masInformacionVerPaciente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

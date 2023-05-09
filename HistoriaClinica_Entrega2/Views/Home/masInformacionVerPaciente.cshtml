@@ -1,0 +1,79 @@
+﻿@model HistoriaClinica_Entrega2.Models.Persona
+@{
+    ViewBag.Title = "masInformacionVerPaciente";
+}
+
+<html>
+<head>
+    <title>Persona</title>
+    <link rel="stylesheet" href="~/Content/PersonaVista.css" />
+</head>
+<body>
+    <div>
+        <h3>Paciente</h3>
+        <form action="verPacientes" method="post">
+            <table>
+
+                <tr>
+                    <td><label>Identificación: @Model.Identificacion </label></td>
+                </tr>
+                <tr>
+                    <td><label>Nombre: @Model.Nombre</label></td>
+                </tr>
+                <tr>
+                    <td><label>Apellidos: @Model.Apellidos</label></td>
+                </tr>
+                <tr>
+                    <td><label>Fecha nacimiento: @Model.FechaNacimiento.ToString("dd/MM/yyyy")</label></td>
+                </tr>
+                <tr>
+                    <td><label>Tipo de Regimen: @Model.Trabajador.TipoRegimen</label></td>
+                </tr>
+                <tr>
+                    <td><label>Semanas Cotizadas: @Model.Trabajador.SemanasCotizadas</label></td>
+                </tr>
+                <tr>
+                    <td><label>fecha de Ingreso: @Model.Trabajador.FechaIngreso.ToString("dd/MM/yyyy")</label></td>
+                </tr>
+                <tr>
+                    <td><label>fecha de Ingreso a la EPS: @Model.Trabajador.FechaIngresoEPS.ToString("dd/MM/yyyy")</label></td>
+                </tr>
+                <tr>
+                    <td><label>EPS: @Model.Trabajador.EPS</label></td>
+                </tr>
+                <tr>
+                    <td><label>Historia Clinica: @Model.InformacionPaciente.HistoriaClinica</label></td>
+                </tr>
+                <tr>
+                    <td><label>Cantidad de Enfermedades: @Model.InformacionPaciente.CantidadEnfermedades</label></td>
+                </tr>
+                <tr>
+                    <td><label>Enfermedad más Relevante: @Model.InformacionPaciente.EnfermedadRelevante</label></td>
+                </tr>
+                <tr>
+                    <td><label>Tipo de Afiliación: @Model.Trabajador.TipoAfiliacion</label></td>
+                </tr>
+                <tr>
+                    <td><label>Coston en los tratamientos: @Model.InformacionPaciente.CostosTratamientos $</label></td>
+                </tr>
+
+            </table>
+            <table>
+                @using (Html.BeginForm("atrasVerPacientes", "Home", FormMethod.Post))
+                {
+                    <input type="submit" name="Información" value="Atras" />
+                }
+                <span style="display: inline-block; width: 10px;"></span>
+
+                @using (Html.BeginForm("borrarPacienteBD", "Home", FormMethod.Post))
+                {
+                    
+                    <input type="hidden" name="identificacion" value="@Model.Identificacion" />
+                    <input type="submit" name="Información1" value="Borrar Usuario" />
+                }
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+

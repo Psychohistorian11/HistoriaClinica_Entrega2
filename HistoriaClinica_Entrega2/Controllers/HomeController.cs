@@ -19,7 +19,11 @@ namespace HistoriaClinica_Entrega2.Controllers
         ClinicaDTO clinicaDTO = new ClinicaDTO();
         public ActionResult MenuPrincipal()
         {
-         
+            List<Persona> lista = clinicaDTO.ObtnerInformacionPacientesBD();
+            clinica.ListaDePacientes = lista;
+            clinica.calcularInfo.ListaDePacientes = lista;
+            clinica.cambiarInfo.ListaDePacientes = lista;
+            clinica.VerificarInfo.ListaDePacientes = lista;
             return View();
         }
         public ActionResult registro()
@@ -342,7 +346,33 @@ namespace HistoriaClinica_Entrega2.Controllers
 
         public ActionResult verPacientes()
         {
-            return View();
+            List<Persona> lista = clinicaDTO.ObtnerInformacionPacientesBD();
+            if (lista != null && lista.Count > 0)
+            {
+                clinica.ListaDePacientes = lista;
+                return View(clinica);
+            }
+            else
+            {
+                return RedirectToAction("seNecesitaRegistro");
+            }
+        }
+
+        public ActionResult masInformacionVerPaciente(int  identificacion)
+        {
+            Persona persona = clinica.obtenerPacientePorId(identificacion);
+            return View(persona);
+        }
+
+        public ActionResult atrasVerPacientes()
+        {
+            return RedirectToAction("verPacientes");
+        }
+
+        public ActionResult borrarPacienteBD(int identificacion)
+        {
+            clinicaDTO.EliminarPaciente(identificacion);
+            return RedirectToAction("verPacientes");
         }
 
 

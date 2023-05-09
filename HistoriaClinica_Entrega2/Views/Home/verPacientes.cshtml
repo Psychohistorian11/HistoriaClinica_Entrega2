@@ -1,4 +1,4 @@
-﻿
+﻿@model HistoriaClinica_Entrega2.Models.Clinica
 @{
     ViewBag.Title = "verPacientes";
 }
@@ -16,28 +16,34 @@
                     <thead>
                         <tr>
                             <th>Identificación</th>
-                            <th>Nombre</th>
                             <th>Apellidos</th>
+                            <th>Nombre</th>
                             <th>Fecha de Nacimiento</th>
+                            <th> </th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>123456789</td>
-                            <td>Juan</td>
-                            <td>Pérez González</td>
-                            <td>25/11/1975</td>
-
-                        </tr>
-                        <tr>
-                            <td>987654321</td>
-                            <td>María</td>
-                            <td>Rodríguez Pérez</td>
-                            <td>25/11/1975</td>
-
-                        </tr>
-                    </tbody>
+                        
+                            @foreach (var paciente in Model.ListaDePacientes)
+                            {
+                                <tr>
+                                    <td>@paciente.Identificacion </td>
+                                    <td>@paciente.Apellidos</td>
+                                    <td>@paciente.Nombre</td>
+                                    <td>@paciente.FechaNacimiento.ToShortDateString()</td>
+                                    <td>
+                                        @using (Html.BeginForm("masInformacionVerPaciente", "Home", FormMethod.Post))
+                                        {
+                                            
+                                            <input type="hidden" name="identificacion" value="@paciente.Identificacion" />
+                                            <input type="submit" name="Información" value="Más Información" />
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                         
+                        </tbody>
                 </table>
 </form>
     </div>
