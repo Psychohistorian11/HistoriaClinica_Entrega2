@@ -8,11 +8,13 @@ namespace HistoriaClinica_Entrega2.Models
 {
     public class VerificarInformacion 
     {
-        List<Persona> listaDePacientes = Clinica.listaDePacientes; 
+        List<Persona> listaDePacientes = Clinica.listaDePacientes;
+
+        public List<Persona> ListaDePacientes { get => listaDePacientes; set => listaDePacientes = value; }
 
         public  bool verificar3mesesEnEPS(int id)
         {
-            foreach (Persona paciente in listaDePacientes)
+            foreach (Persona paciente in ListaDePacientes)
             {
                 if (paciente.Identificacion == id)
                 {
@@ -32,7 +34,7 @@ namespace HistoriaClinica_Entrega2.Models
         }
         public  bool verificarExistenciaDeIdentidad(int id)
         {
-            foreach (Persona persona in listaDePacientes)
+            foreach (Persona persona in ListaDePacientes)
             {
                 if (persona.Identificacion == id)
                 {
@@ -45,7 +47,7 @@ namespace HistoriaClinica_Entrega2.Models
 
         public bool verificarSiLaEPSesLaMisma(int id, string EPSactual)
         {
-            foreach(Persona paciente in listaDePacientes)
+            foreach(Persona paciente in ListaDePacientes)
             {
                 if(paciente.Identificacion == id && paciente.Trabajador.EPS == EPSactual)
                 {  
@@ -59,7 +61,7 @@ namespace HistoriaClinica_Entrega2.Models
 
         public bool verificarSiRegimenEsElMismo(int id, string tipoRegimen)
         {
-            foreach(Persona paciente in listaDePacientes)
+            foreach(Persona paciente in ListaDePacientes)
             {
                 if(paciente.Identificacion == id && paciente.Trabajador.TipoRegimen == tipoRegimen)
                 {

@@ -16,6 +16,7 @@ namespace HistoriaClinica_Entrega2.Controllers
     {
 
         Clinica clinica = Clinica.ObtenerInstancia();
+        ClinicaDTO clinicaDTO = new ClinicaDTO();
         public ActionResult MenuPrincipal()
         {
          
@@ -29,15 +30,19 @@ namespace HistoriaClinica_Entrega2.Controllers
 
         public ActionResult estadisticas()
         {
-            if(clinica.ListaDePacientes.Count > 0)
+            List<Persona> lista = clinicaDTO.ObtnerInformacionPacientesBD();
+            if (lista != null && lista.Count > 0)
             {
+                clinica.ListaDePacientes = lista;
+                clinica.calcularInfo.ListaDePacientes = lista;
+                clinica.cambiarInfo.ListaDePacientes = lista;
+                clinica.VerificarInfo.ListaDePacientes = lista;
                 return View(clinica);
             }
             else
             {
                 return RedirectToAction("seNecesitaRegistro");
             }
-            
         }
 
         public ActionResult seNecesitaRegistro() 
@@ -140,9 +145,9 @@ namespace HistoriaClinica_Entrega2.Controllers
 
             Persona persona = new Persona(identificacion, nombre, apellidos, fechaNacimiento,trabajador,informaciónPaciente);
 
-
+            clinicaDTO.ingresarPaciente(persona);
             clinica.ingresarPaciente(persona);
-            return View(persona);
+            return View(persona); 
             
 
         }
@@ -333,6 +338,11 @@ namespace HistoriaClinica_Entrega2.Controllers
 
             TempData["cambioEnfermedadRealizado"] = "La enfermedad más relevante del paciente se ha actualizado con éxito";
             return RedirectToAction("mostrarActualizarEnfermedad");
+        }
+
+        public ActionResult verPacientes()
+        {
+            return View();
         }
 
 

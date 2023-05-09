@@ -10,9 +10,9 @@ namespace HistoriaClinica_Entrega2.Models
     public class Clinica
     {
         public static Clinica instanciaUnica;
-        public CalcularInformacion calcularInfo = new CalcularInformacion();
-        public CambiarInformacion cambiarInfo = new CambiarInformacion();
-        public VerificarInformacion verificarInfo = new VerificarInformacion();
+        public  CalcularInformacion calcularInfo = new CalcularInformacion();
+        public  CambiarInformacion cambiarInfo = new CambiarInformacion();
+        public  VerificarInformacion verificarInfo = new VerificarInformacion();
 
 
         public static Clinica ObtenerInstancia()

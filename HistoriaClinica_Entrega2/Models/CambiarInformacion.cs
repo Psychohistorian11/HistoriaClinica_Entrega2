@@ -9,6 +9,8 @@ namespace HistoriaClinica_Entrega2.Models
     {
         List<Persona> listaDePacientes = Clinica.listaDePacientes;
 
+        public List<Persona> ListaDePacientes { get => listaDePacientes; set => listaDePacientes = value; }
+
         public void cambiarTipoRegimen(Persona paciente, string tipoRegimen)
         {
             paciente.Trabajador.TipoRegimen = tipoRegimen;
@@ -31,7 +33,7 @@ namespace HistoriaClinica_Entrega2.Models
         public void CambioEPS(int identificacion, string EPS)
         {
 
-            foreach (Persona paciente in listaDePacientes)
+            foreach (Persona paciente in ListaDePacientes)
             {
                 if (paciente.Identificacion == identificacion)
                 {

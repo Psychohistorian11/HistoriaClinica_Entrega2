@@ -9,16 +9,18 @@ namespace HistoriaClinica_Entrega2.Models
 {
     public class CalcularInformacion 
     {
-        List<Persona> listaDePacientes = Clinica.listaDePacientes;
+         List<Persona> listaDePacientes = Clinica.listaDePacientes;
+
+        public List<Persona> ListaDePacientes { get => listaDePacientes; set => listaDePacientes = value; }
 
         public List<double> calcularTotalCostosPorEPS()
         {
             List<double> costosEps = new List<double>();
-            List<Persona> afiliadosSura = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Sura").ToList();
-            List<Persona> afiliadosNuevaEps = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Nueva EPS").ToList();
-            List<Persona> afiliadosSaludtotal = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Salud Total").ToList();
-            List<Persona> afiliadosSanitas = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Sanitas").ToList();
-            List<Persona> afiliadosSavia = listaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Savia").ToList();
+            List<Persona> afiliadosSura = ListaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Sura").ToList();
+            List<Persona> afiliadosNuevaEps = ListaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Nueva EPS").ToList();
+            List<Persona> afiliadosSaludtotal = ListaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Salud Total").ToList();
+            List<Persona> afiliadosSanitas = ListaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Sanitas").ToList();
+            List<Persona> afiliadosSavia = ListaDePacientes.Where(afiliado => afiliado.Trabajador.EPS == "Savia").ToList();
 
             double costoSura = afiliadosSura.Sum(afiliado => afiliado.InformacionPaciente.CostosTratamientos);
             double costoNuevaEps = afiliadosNuevaEps.Sum(afiliado => afiliado.InformacionPaciente.CostosTratamientos);
@@ -39,7 +41,7 @@ namespace HistoriaClinica_Entrega2.Models
             int cantidadDePacientes = 0;
             int cantidadDePacientes0Enfermedades = 0;
             double porcentajePacientesSinEnfermedades = 0f;
-            foreach (Persona paciente in listaDePacientes)
+            foreach (Persona paciente in ListaDePacientes)
             {
                 cantidadDePacientes++;
                 if (paciente.InformacionPaciente.CantidadEnfermedades == 0)
@@ -55,9 +57,9 @@ namespace HistoriaClinica_Entrega2.Models
             string enfermedadBuscada = "cancer";
             int numeroPacientes = 0;
 
-            foreach (Persona Paciente in listaDePacientes)
+            foreach (Persona Paciente in ListaDePacientes)
             {
-                if (Paciente.InformacionPaciente.EnfermedadRelevante.ToLower() == enfermedadBuscada.ToLower())
+                if (Paciente.InformacionPaciente.EnfermedadRelevante.Trim().ToLower() == enfermedadBuscada.ToLower())
                 {
                     numeroPacientes++;
                 }
@@ -87,7 +89,7 @@ namespace HistoriaClinica_Entrega2.Models
         }
         public List<double> calcularPorcentajesPorEdad()
         {
-            double cantidadDePacientes = Convert.ToDouble(listaDePacientes.Count);
+            double cantidadDePacientes = Convert.ToDouble(ListaDePacientes.Count);
             double cantidadNiños = 0;
             double cantidadAdolescente = 0;
             double cantidadJovenes = 0;
@@ -96,7 +98,7 @@ namespace HistoriaClinica_Entrega2.Models
             double cantidadAnciano = 0;
             List<double> porcentajeDePacientes = new List<double>();
 
-            foreach (Persona paciente in listaDePacientes)
+            foreach (Persona paciente in ListaDePacientes)
             {
 
 
@@ -154,7 +156,7 @@ namespace HistoriaClinica_Entrega2.Models
         public Persona encontrarMayorCosto()
         {
 
-            List<Persona> listaCostosPaciente = listaDePacientes.Where(paciente1 => paciente1.InformacionPaciente.CostosTratamientos > 0).ToList();
+            List<Persona> listaCostosPaciente = ListaDePacientes.Where(paciente1 => paciente1.InformacionPaciente.CostosTratamientos > 0).ToList();
             double mayor_costo = listaCostosPaciente.Max(paciente1 => paciente1.InformacionPaciente.CostosTratamientos);
             List<Persona> paciente = listaCostosPaciente.Where(paciente1 => paciente1.InformacionPaciente.CostosTratamientos == mayor_costo).ToList();
             return paciente[0];
@@ -166,13 +168,13 @@ namespace HistoriaClinica_Entrega2.Models
             double porcentajeContributivo;
             double porcentajeSubsidiado;
             List<double> porcentajes = new List<double>();
-            List<Persona> afiliadosContributivo = listaDePacientes.Where(afiliado => afiliado.Trabajador.TipoRegimen == "Contributivo").ToList();
-            List<Persona> afiliadosSubsidiado = listaDePacientes.Where(afiliado => afiliado.Trabajador.TipoRegimen == "Subsidiado").ToList();
+            List<Persona> afiliadosContributivo = ListaDePacientes.Where(afiliado => afiliado.Trabajador.TipoRegimen == "Contributivo").ToList();
+            List<Persona> afiliadosSubsidiado = ListaDePacientes.Where(afiliado => afiliado.Trabajador.TipoRegimen == "Subsidiado").ToList();
 
             try
             {
-                porcentajeContributivo = (Convert.ToDouble(afiliadosContributivo.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
-                porcentajeSubsidiado = (Convert.ToDouble(afiliadosSubsidiado.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
+                porcentajeContributivo = (Convert.ToDouble(afiliadosContributivo.Count) / Convert.ToDouble(ListaDePacientes.Count)) * 100;
+                porcentajeSubsidiado = (Convert.ToDouble(afiliadosSubsidiado.Count) / Convert.ToDouble(ListaDePacientes.Count)) * 100;
             }
             catch(DivideByZeroException)
             {
@@ -189,12 +191,12 @@ namespace HistoriaClinica_Entrega2.Models
         {
             double porcentajeCotizante;
             double porcentajeBeneficiario;
-            List<Persona> afiliadosCotizantes = listaDePacientes.Where(paciente => paciente.Trabajador.TipoAfiliacion == "Cotizante").ToList();
-            List<Persona> afiliadosBeneficiarios = listaDePacientes.Where(paciente => paciente.Trabajador.TipoAfiliacion == "Beneficiario").ToList();
+            List<Persona> afiliadosCotizantes = ListaDePacientes.Where(paciente => paciente.Trabajador.TipoAfiliacion == "Cotizante").ToList();
+            List<Persona> afiliadosBeneficiarios = ListaDePacientes.Where(paciente => paciente.Trabajador.TipoAfiliacion == "Beneficiario").ToList();
             try
             {
-                porcentajeCotizante = (Convert.ToDouble(afiliadosCotizantes.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
-                porcentajeBeneficiario = (Convert.ToDouble(afiliadosBeneficiarios.Count) / Convert.ToDouble(listaDePacientes.Count)) * 100;
+                porcentajeCotizante = (Convert.ToDouble(afiliadosCotizantes.Count) / Convert.ToDouble(ListaDePacientes.Count)) * 100;
+                porcentajeBeneficiario = (Convert.ToDouble(afiliadosBeneficiarios.Count) / Convert.ToDouble(ListaDePacientes.Count)) * 100;
             }
             catch (DivideByZeroException)
             {

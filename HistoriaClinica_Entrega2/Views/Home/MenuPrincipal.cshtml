@@ -62,6 +62,10 @@
         {
             <button id="miboton6" class="boton-minimalista"> Actualizar enfermedad más relevante........</button>
         }
+        @using (Html.BeginForm("verPacientes", "Home", FormMethod.Post))
+        {
+            <button id="miboton7" class="boton-minimalista"> Ver Pacientes Registrados...............................</button>
+        }
         @using (Html.BeginForm("estadisticas", "Home", FormMethod.Post))
         {
             <style>
@@ -73,7 +77,7 @@
                     padding: 10px 20px;
                 }
             </style>
-            <button id="miboton6" class="boton-minimalista1"> Estadisticas............................................................</button>
+            <button id="miboton8" class="boton-minimalista1"> Estadisticas............................................................</button>
         }
     </div>
 </body>

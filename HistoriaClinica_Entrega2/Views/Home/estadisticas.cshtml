@@ -1,7 +1,6 @@
 ﻿@model HistoriaClinica_Entrega2.Models.Clinica
 @{ 
         ViewBag.Title = "estadisticas";
-        Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <html>
@@ -14,8 +13,12 @@
         <h3>Estadisticas</h3>
         <form action="estadisticas" method="post">
             <table>
+                @if (Model.calcularInfo.ListaDePacientes.Count == 0)
+                {
+                    <p>No hay pacientes registrados</p>
+                }
                 @{
-                    
+
                     List<double> porcentajeCostosPorEPS = Model.CalcularInfo.calcularPorcentajeCostosPorEPS();
                     List<double> totalCostosPorEPS = Model.CalcularInfo.calcularTotalCostosPorEPS();
                     double PorcentajePacientesSinEnfermedades = Model.CalcularInfo.calcularPorcentajePacienteSinEnfermedad();
@@ -86,7 +89,7 @@
                             ==> @pacienteMayorCostosDeTratamientos.InformacionPaciente.CostosTratamientos $
                         </div>
 
-</td>
+                    </td>
                 </tr>
                 <tr>
                     <td><br /></td>
@@ -134,7 +137,7 @@
                             b. beneficiario: @Math.Round(porcentajePacientesPorTipoAfiliacion[1], 2) %
                         </div>
 
-                </td>
+                    </td>
                 </tr>
                 <tr>
                     <td><br /></td>
